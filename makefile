@@ -1,4 +1,4 @@
 default:
 	@go build test.go
 	@./test
-	@eog test.png
+	@open test.png

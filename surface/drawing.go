@@ -1,6 +1,8 @@
 package surface
 
 import (
+	"bitlib/bitmath"
+	"bitlib/geom"
 	"math"
 	"math/rand"
 )
@@ -40,13 +42,13 @@ func (s *BitSurface) StrokeRectangle(x float64, y float64, w float64, h float64)
 func (s *BitSurface) RoundRectangle(x float64, y float64, w float64, h float64, r float64) {
 	s.MoveTo(x+r, y)
 	s.LineTo(x+w-r, y)
-	s.Arc(x+w-r, y+r, r, -HalfPi, 0.0)
+	s.Arc(x+w-r, y+r, r, -bitmath.HalfPi, 0.0)
 	s.LineTo(x+w, y+h-r)
-	s.Arc(x+w-r, y+h-r, r, 0.0, HalfPi)
+	s.Arc(x+w-r, y+h-r, r, 0.0, bitmath.HalfPi)
 	s.LineTo(x+r, y+h)
-	s.Arc(x+r, y+h-r, r, HalfPi, math.Pi)
+	s.Arc(x+r, y+h-r, r, bitmath.HalfPi, math.Pi)
 	s.LineTo(x, y+r)
-	s.Arc(x+r, y+r, r, math.Pi, -HalfPi)
+	s.Arc(x+r, y+r, r, math.Pi, -bitmath.HalfPi)
 }
 
 // StrokeRoundRectangle draws a stroked, rounded rectangle.
@@ -67,7 +69,7 @@ func (s *BitSurface) FillRoundRectangle(x float64, y float64, w float64, h float
 
 // Circle draws a circle
 func (s *BitSurface) Circle(x float64, y float64, r float64) {
-	s.Arc(x, y, r, 0.0, TwoPi)
+	s.Arc(x, y, r, 0.0, bitmath.TwoPi)
 }
 
 // FillCircle draws a filled circle.
@@ -112,20 +114,20 @@ func (s *BitSurface) StrokeEllipse(x float64, y float64, xr float64, yr float64)
 ////////////////////////////////////////
 
 // Path draws a path of points.
-func (s *BitSurface) Path(points []Point) {
+func (s *BitSurface) Path(points []*geom.Point) {
 	for _, point := range points {
 		s.LineTo(point.X, point.Y)
 	}
 }
 
 // FillPath draws a filled path of points.
-func (s *BitSurface) FillPath(points []Point) {
+func (s *BitSurface) FillPath(points []*geom.Point) {
 	s.Path(points)
 	s.Fill()
 }
 
 // StrokePath draws a stroked path of points.
-func (s *BitSurface) StrokePath(points []Point, close bool) {
+func (s *BitSurface) StrokePath(points []*geom.Point, close bool) {
 	s.Path(points)
 	if close {
 		s.ClosePath()
@@ -144,7 +146,7 @@ func (s *BitSurface) Polygon(x float64, y float64, r float64, sides int, rotatio
 	s.Rotate(rotation)
 	s.MoveTo(r, 0.0)
 	for i := 0; i < sides; i++ {
-		angle := TwoPi / float64(sides) * float64(i)
+		angle := bitmath.TwoPi / float64(sides) * float64(i)
 		s.LineTo(math.Cos(angle)*r, math.Sin(angle)*r)
 	}
 	s.LineTo(r, 0.0)
@@ -209,12 +211,12 @@ func (s *BitSurface) Splat(
 	innerRadius float64,
 	variation float64,
 ) {
-	var points []Point
-	slice := TwoPi / float64(numNodes*2)
+	var points []*geom.Point
+	slice := bitmath.TwoPi / float64(numNodes*2)
 	angle := 0.0
 	curve := 0.3
 	radiusRange := radius - innerRadius
-	variation = clamp(variation, 0.0, 1.0)
+	variation = bitmath.Clamp(variation, 0.0, 1.0)
 	for i := 0; i < numNodes; i++ {
 		radius := radius + variation*(rand.Float64()*radiusRange*2.0-radiusRange)
 		radiusRange := radius - innerRadius
@@ -233,11 +235,11 @@ func (s *BitSurface) Splat(
 
 }
 
-func makePoint(angle float64, radius float64) Point {
-	return Point{
-		X: math.Cos(angle) * radius,
-		Y: math.Sin(angle) * radius,
-	}
+func makePoint(angle float64, radius float64) *geom.Point {
+	return geom.NewPoint(
+		math.Cos(angle)*radius,
+		math.Sin(angle)*radius,
+	)
 }
 
 // StrokeSplat draws a stroked splat
@@ -276,18 +278,18 @@ func (s *BitSurface) FractalLine(x1 float64, y1 float64, x2 float64, y2 float64,
 	dy := y2 - y1
 	offset := math.Sqrt(dx*dx+dy*dy) * 0.15
 
-	var path []Point
-	path = append(path, Point{x1, y1})
-	path = append(path, Point{x2, y2})
+	var path []*geom.Point
+	path = append(path, geom.NewPoint(x1, y1))
+	path = append(path, geom.NewPoint(x2, y2))
 
 	for i := 0; i < iterations; i++ {
-		var newPath []Point
+		var newPath []*geom.Point
 		for j, point := range path {
-			newPath = append(newPath, Point{point.X, point.Y})
+			newPath = append(newPath, geom.NewPoint(point.X, point.Y))
 			if j < len(path)-1 {
 				x := (point.X+path[j+1].X)/2.0 + rand.Float64()*offset*2.0 - offset
 				y := (point.Y+path[j+1].Y)/2.0 + rand.Float64()*offset*2.0 - offset
-				newPath = append(newPath, Point{x, y})
+				newPath = append(newPath, geom.NewPoint(x, y))
 			}
 		}
 		offset *= roughness
@@ -310,13 +312,13 @@ func (s *BitSurface) Heart(x float64, y float64, w float64, h float64, r float64
 	s.Save()
 	s.Translate(x, y)
 	s.Rotate(r)
-	var path []Point
+	var path []*geom.Point
 	res := math.Sqrt(w * h)
 	for i := 0; i < int(res); i++ {
-		a := TwoPi * float64(i) / res
+		a := bitmath.TwoPi * float64(i) / res
 		x := w * math.Pow(math.Sin(a), 3.0)
 		y := h*(0.8125*math.Cos(a)) - 0.3125*math.Cos(2.0*a) - 0.125*math.Cos(3.0*a) - 0.0625*math.Cos(4.0*a)
-		path = append(path, Point{x, -y})
+		path = append(path, geom.NewPoint(x, -y))
 	}
 	s.Path(path)
 	s.Restore()
@@ -339,7 +341,7 @@ func (s *BitSurface) StrokeHeart(x float64, y float64, w float64, h float64, r f
 ////////////////////////////////////////
 
 // Points draws a number of points.
-func (s *BitSurface) Points(points []Point, radius float64) {
+func (s *BitSurface) Points(points []geom.Point, radius float64) {
 	for _, point := range points {
 		s.FillCircle(point.X, point.Y, radius)
 	}
@@ -361,7 +363,7 @@ func (s *BitSurface) StrokeCurveTo(x0 float64, y0 float64, x1 float64, y1 float6
 
 // QuadraticCurveTo draws a quadratic curve to two points.
 func (s *BitSurface) QuadraticCurveTo(x0 float64, y0 float64, x1 float64, y1 float64) {
-	p := Point{0, 0} // todo
+	p := geom.NewPoint(0, 0) // todo
 	// p := s.GetCurrentPoint()
 	s.CurveTo(
 		2.0/3.0*x0+1.0/3.0*p.X,
@@ -383,7 +385,7 @@ func (s *BitSurface) StrokeQuadraticCurveTo(x0 float64, y0 float64, x1 float64, 
 ////////////////////////////////////////
 
 // MultiCurve draws a smooth curve between a set of points.
-func (s *BitSurface) MultiCurve(points []Point) {
+func (s *BitSurface) MultiCurve(points []geom.Point) {
 	s.MoveTo(points[0].X, points[0].Y)
 	s.LineTo(
 		(points[0].X+points[1].X)/2.0,
@@ -404,7 +406,7 @@ func (s *BitSurface) MultiCurve(points []Point) {
 }
 
 // StrokeMultiCurve draws a stroked curve between a set of points.
-func (s *BitSurface) StrokeMultiCurve(points []Point) {
+func (s *BitSurface) StrokeMultiCurve(points []geom.Point) {
 	s.MultiCurve(points)
 	s.Stroke()
 }
@@ -414,7 +416,7 @@ func (s *BitSurface) StrokeMultiCurve(points []Point) {
 ////////////////////////////////////////
 
 // MultiLoop draws a smooth, closed curve between a set of points.
-func (s *BitSurface) MultiLoop(points []Point) {
+func (s *BitSurface) MultiLoop(points []*geom.Point) {
 	pA := points[0]
 	pZ := points[len(points)-1]
 	mid1x := (pZ.X + pA.X) / 2.0
@@ -431,13 +433,13 @@ func (s *BitSurface) MultiLoop(points []Point) {
 }
 
 // FillMultiLoop draws a filled, smooth, closed curve between a set of points.
-func (s *BitSurface) FillMultiLoop(points []Point) {
+func (s *BitSurface) FillMultiLoop(points []*geom.Point) {
 	s.MultiLoop(points)
 	s.Fill()
 }
 
 // StrokeMultiLoop draws a stroked, smooth, closed curve between a set of points.
-func (s *BitSurface) StrokeMultiLoop(points []Point) {
+func (s *BitSurface) StrokeMultiLoop(points []*geom.Point) {
 	s.MultiLoop(points)
 	s.Stroke()
 }

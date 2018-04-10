@@ -1,13 +1,20 @@
 package main
 
-import "bitlib/surface"
+import (
+	"bitlib/color"
+	"bitlib/surface"
+)
 
 func main() {
 	surface := surface.NewBitSurface(500, 500)
-	surface.ClearRGB(1, 0, 0)
-	surface.Line(0, 0, 500, 500)
-	surface.Line(500, 0, 0, 500)
-	surface.Grid(0, 0, 500, 500, 10, 40)
+	for x := 0; x < 100; x++ {
+		for y := 0; y < 100; y++ {
+			xx := float64(x)
+			yy := float64(y)
+			surface.SetSourceColor(color.HSV(xx/100*630, 1, 1-yy/100))
+			surface.FillRectangle(xx*5, yy*5, 5, 5)
+		}
+	}
 	surface.WriteToPNG("test.png")
 
 }

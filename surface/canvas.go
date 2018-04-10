@@ -1,6 +1,7 @@
 package surface
 
 import (
+	"bitlib/color"
 	cairo "github.com/ungerik/go-cairo"
 )
 
@@ -29,11 +30,10 @@ func (s *BitSurface) ClearRGB(r float64, g float64, b float64) {
 	s.Restore()
 }
 
-// todo when i have a color struct
-//     func ClearColor(color Color) {
-//         s.ClearRgb(color.r, color.g, color.b)
-//     }
+func (s *BitSurface) ClearColor(color color.Color) {
+	s.ClearRGB(color.R, color.G, color.B)
+}
 
-//     func SetSourceColor(color Color) {
-//         s.SetSourceRgba(color.r, color.g, color.b, color.a)
-//     }
+func (s *BitSurface) SetSourceColor(color color.Color) {
+	s.SetSourceRGBA(color.R, color.G, color.B, color.A)
+}
