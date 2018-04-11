@@ -1,3 +1,7 @@
+install cairo
+
+https://cairographics.org/download/
+
 install go-cairo:
 
 https://github.com/ungerik/go-cairo
