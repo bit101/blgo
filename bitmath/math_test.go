@@ -1,7 +1,6 @@
 package bitmath
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -24,8 +23,7 @@ func TestNorm(t *testing.T) {
 	if Norm(0, 100, 0) != 1 {
 		t.Error("Norm(0, 100, 0) != 1")
 	}
-	fmt.Println(Norm(1, 100, 0))
-	if Norm(1, 100, 0) != 0 {
+	if Norm(100, 100, 0) != 0 {
 		t.Error("Norm(1, 100, 0) != 0")
 	}
 
