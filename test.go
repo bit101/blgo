@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bitlib/bitmath"
 	"bitlib/color"
 	"bitlib/surface"
+	"math"
 )
 
 func main() {
@@ -11,7 +13,8 @@ func main() {
 		for y := 0; y < 100; y++ {
 			xx := float64(x)
 			yy := float64(y)
-			surface.SetSourceColor(color.HSV(xx/100*630, 1, 1-yy/100))
+			dist := math.Hypot(xx, yy)
+			surface.SetSourceColor(color.HSV(bitmath.SinRange(dist*0.1, 0, 360), 1, 1))
 			surface.FillRectangle(xx*5, yy*5, 5, 5)
 		}
 	}
