@@ -27,10 +27,10 @@ func dist(p0 *Point, p1 *Point) float64 {
 	return math.Hypot(dx, dy)
 }
 
-func LerpPoint(p0 Point, p1 Point, t float64) Point {
+func LerpPoint(t float64, p0 Point, p1 Point) Point {
 	return Point{
-		bitmath.Lerp(p0.X, p1.X, t),
-		bitmath.Lerp(p0.Y, p1.Y, t),
+		bitmath.Lerp(t, p0.X, p1.X),
+		bitmath.Lerp(t, p0.Y, p1.Y),
 	}
 }
 
