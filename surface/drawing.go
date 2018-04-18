@@ -1,11 +1,12 @@
 package surface
 
 import (
-	"bitlib/bitmath"
-	"bitlib/geom"
 	"fmt"
 	"math"
 	"math/rand"
+
+	"github.com/bit101/bitlibgo/bitmath"
+	"github.com/bit101/bitlibgo/geom"
 )
 
 ////////////////////////////////////////

@@ -1,9 +1,10 @@
 package geom
 
 import (
-	"bitlib/bitmath"
 	"errors"
 	"math"
+
+	"github.com/bit101/bitlibgo/bitmath"
 )
 
 // DotProduct returns the dot product between two lines.
