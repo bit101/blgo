@@ -6,6 +6,7 @@ import (
 	"math"
 )
 
+// DotProduct returns the dot product between two lines.
 func DotProduct(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 	dx0 := p1.X - p0.X
 	dy0 := p1.Y - p0.Y
@@ -14,19 +15,15 @@ func DotProduct(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 	return dx0*dx1 + dy0*dy1
 }
 
+// AngleBetween returns the angle between two lines.
 func AngleBetween(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 	dp := DotProduct(p0, p1, p2, p3)
-	mag0 := dist(p0, p1)
-	mag1 := dist(p2, p3)
+	mag0 := p0.Distance(p1)
+	mag1 := p2.Distance(p3)
 	return math.Acos(dp / mag0 / mag1)
 }
 
-func dist(p0 *Point, p1 *Point) float64 {
-	dx := p1.X - p0.X
-	dy := p1.Y - p0.Y
-	return math.Hypot(dx, dy)
-}
-
+// LerpPoint linearly interpolates between two points.
 func LerpPoint(t float64, p0 Point, p1 Point) Point {
 	return Point{
 		bitmath.Lerp(t, p0.X, p1.X),
@@ -34,6 +31,7 @@ func LerpPoint(t float64, p0 Point, p1 Point) Point {
 	}
 }
 
+// BezierPoint calculates a point along a Bezier curve.
 func BezierPoint(p0 Point, p1 Point, p2 Point, p3 Point, t float64) Point {
 	oneMinusT := 1.0 - t
 	m0 := oneMinusT * oneMinusT * oneMinusT
@@ -46,6 +44,7 @@ func BezierPoint(p0 Point, p1 Point, p2 Point, p3 Point, t float64) Point {
 	}
 }
 
+// QuadraticPoint calculated a point along a quadratic Bezier curve.
 func QuadraticPoint(p0 Point, p1 Point, p2 Point, t float64) Point {
 	oneMinusT := 1.0 - t
 	m0 := oneMinusT * oneMinusT
@@ -57,6 +56,7 @@ func QuadraticPoint(p0 Point, p1 Point, p2 Point, t float64) Point {
 	}
 }
 
+// SegmentIntersect returns whether or not two line segments cross.
 func SegmentIntersect(p0 Point, p1 Point, p2 Point, p3 Point) (Point, error) {
 	a1 := p1.Y - p0.Y
 	b1 := p0.X - p1.X
@@ -68,28 +68,27 @@ func SegmentIntersect(p0 Point, p1 Point, p2 Point, p3 Point) (Point, error) {
 
 	if denominator == 0.0 {
 		return Point{}, errors.New("nope")
-	} else {
-		intersectX := (b2*c1 - b1*c2) / denominator
-		intersectY := (a1*c2 - a2*c1) / denominator
-		rx0 := (intersectX - p0.X) / (p1.X - p0.X)
-		ry0 := (intersectY - p0.Y) / (p1.Y - p0.Y)
-		rx1 := (intersectX - p2.X) / (p3.X - p2.X)
-		ry1 := (intersectY - p2.Y) / (p3.Y - p2.Y)
-
-		if ((rx0 >= 0.0 && rx0 <= 1.0) || (ry0 >= 0.0 && ry0 <= 1.0)) &&
-			((rx1 >= 0.0 && rx1 <= 1.0) || (ry1 >= 0.0 && ry1 <= 1.0)) {
-			return Point{
-				intersectX,
-				intersectY,
-			}, nil
-		} else {
-			return Point{}, errors.New("nope")
-		}
 	}
+	intersectX := (b2*c1 - b1*c2) / denominator
+	intersectY := (a1*c2 - a2*c1) / denominator
+	rx0 := (intersectX - p0.X) / (p1.X - p0.X)
+	ry0 := (intersectY - p0.Y) / (p1.Y - p0.Y)
+	rx1 := (intersectX - p2.X) / (p3.X - p2.X)
+	ry1 := (intersectY - p2.Y) / (p3.Y - p2.Y)
+
+	if ((rx0 >= 0.0 && rx0 <= 1.0) || (ry0 >= 0.0 && ry0 <= 1.0)) &&
+		((rx1 >= 0.0 && rx1 <= 1.0) || (ry1 >= 0.0 && ry1 <= 1.0)) {
+		return Point{
+			intersectX,
+			intersectY,
+		}, nil
+	}
+	return Point{}, errors.New("nope")
 }
 
+// TangentPointToCircle calculates the point at which a line extending from a point will contact a circle.
 func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) Point {
-	d := dist(point, circle.Center)
+	d := point.Distance(circle.Center)
 	dir := -1.0
 	if anticlockwise {
 		dir = 1.0
