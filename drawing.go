@@ -1,4 +1,4 @@
-package surface
+package bitlibgo
 
 import (
 	"fmt"
