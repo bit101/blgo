@@ -39,3 +39,10 @@ func (s *BitSurface) ClearColor(color color.Color) {
 func (s *BitSurface) SetSourceColor(color color.Color) {
 	s.SetSourceRGBA(color.R, color.G, color.B, color.A)
 }
+
+// GetPixel returns the r, g, b, a value at a given x, y location.
+func (s *BitSurface) GetPixel(x int, y int) (byte, byte, byte, byte) {
+	data := s.GetData()
+	index := (y*s.GetWidth() + x) * 4
+	return data[index+2], data[index+1], data[index], data[index+3]
+}
