@@ -21,6 +21,19 @@ func NewBitSurface(width float64, height float64) *BitSurface {
 	}
 }
 
+// NewBitSurfaceFromPNG creates a new BitSurface.
+func NewBitSurfaceFromPNG(filename string) (*BitSurface, cairo.Status) {
+	surface, status := cairo.NewSurfaceFromPNG(filename)
+	if status != cairo.STATUS_SUCCESS {
+		return nil, status
+	}
+	return &BitSurface{
+		float64(surface.GetWidth()),
+		float64(surface.GetHeight()),
+		*surface,
+	}, status
+}
+
 // ClearRGB clears the surface to the given rgb color.
 func (s *BitSurface) ClearRGB(r float64, g float64, b float64) {
 	s.Save()

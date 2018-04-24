@@ -26,6 +26,12 @@ func MapTo(srcValue float64, srcMin float64, srcMax float64, dstMin float64, dst
 	return Lerp(norm, dstMin, dstMax)
 }
 
+// Wrap wraps a value around so it remains between min and max.
+func Wrap(value float64, min float64, max float64) float64 {
+	r := max - min
+	return min + math.Mod((math.Mod(value-min, r)+r), r)
+}
+
 // Clamp enforces a value does not go beyond a min/max range.
 func Clamp(value float64, min float64, max float64) float64 {
 	// let min and max be reversed and still work.

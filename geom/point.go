@@ -24,7 +24,7 @@ func NewPoint(x float64, y float64) *Point {
 func RandomPoint(x, y, w, h float64) *Point {
 	return &Point{
 		X: random.FloatRange(x, x+w),
-		Y: random.FloatRange(y, y+w),
+		Y: random.FloatRange(y, y+h),
 	}
 }
 

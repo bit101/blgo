@@ -79,6 +79,30 @@ func TestMapTo(t *testing.T) {
 	}
 }
 
+func TestWrap(t *testing.T) {
+	var tests = []struct {
+		val  float64
+		min  float64
+		max  float64
+		want float64
+	}{
+		{0, 0, 360, 0},
+		{360, 0, 360, 0},
+		{400, 0, 360, 40},
+		{-50, 0, 360, 310},
+		{720, 0, 360, 0},
+		{719, 0, 360, 359},
+		{-360, 0, 360, 0},
+		{50, 0, 360, 50},
+	}
+	for _, test := range tests {
+		result := Wrap(test.val, test.min, test.max)
+		if result != test.want {
+			t.Errorf("Wrap(%f, %f, %f) != %f", test.val, test.min, test.max, test.want)
+		}
+	}
+}
+
 func TestClamp(t *testing.T) {
 	var tests = []struct {
 		val  float64
