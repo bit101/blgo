@@ -25,7 +25,7 @@ func AngleBetween(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 }
 
 // LerpPoint linearly interpolates between two points.
-func LerpPoint(t float64, p0 Point, p1 Point) Point {
+func LerpPoint(t float64, p0 *Point, p1 *Point) Point {
 	return Point{
 		bitmath.Lerp(t, p0.X, p1.X),
 		bitmath.Lerp(t, p0.Y, p1.Y),

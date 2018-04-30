@@ -51,7 +51,7 @@ func TestLerp(t *testing.T) {
 	}
 }
 
-func TestMapTo(t *testing.T) {
+func TestMap(t *testing.T) {
 	var tests = []struct {
 		srcVal float64
 		srcMin float64
@@ -72,7 +72,7 @@ func TestMapTo(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		result := MapTo(test.srcVal, test.srcMin, test.srcMax, test.dstMin, test.dstMax)
+		result := Map(test.srcVal, test.srcMin, test.srcMax, test.dstMin, test.dstMax)
 		if result != test.want {
 			t.Errorf("MapTo(%f, %f, %f, %f, %f) != %f", test.srcVal, test.srcMin, test.srcMax, test.dstMin, test.dstMax, test.want)
 		}
@@ -169,6 +169,27 @@ func TestSinRange(t *testing.T) {
 		result := SinRange(test.val, test.min, test.max)
 		if !Equalish(result, test.want, 0.0001) {
 			t.Errorf("SinRange(%f, %f, %f) != %f", test.val, test.min, test.max, test.want)
+		}
+	}
+}
+
+func TestCosRange(t *testing.T) {
+	var tests = []struct {
+		val  float64
+		min  float64
+		max  float64
+		want float64
+	}{
+		{math.Pi * 0.0, 0, 100, 100},
+		{math.Pi * 0.5, 0, 100, 50},
+		{math.Pi * 1.0, 0, 100, 0},
+		{math.Pi * 1.5, 0, 100, 50},
+		{math.Pi * 2.0, 0, 100, 100},
+	}
+	for _, test := range tests {
+		result := CosRange(test.val, test.min, test.max)
+		if !Equalish(result, test.want, 0.0001) {
+			t.Errorf("CosRange(%f, %f, %f) != %f", test.val, test.min, test.max, test.want)
 		}
 	}
 }

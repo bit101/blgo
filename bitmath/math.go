@@ -20,8 +20,8 @@ func Lerp(t float64, min float64, max float64) float64 {
 	return min + (max-min)*t
 }
 
-// MapTo maps a value within one min/max range to a value within another range.
-func MapTo(srcValue float64, srcMin float64, srcMax float64, dstMin float64, dstMax float64) float64 {
+// Map maps a value within one min/max range to a value within another range.
+func Map(srcValue float64, srcMin float64, srcMax float64, dstMin float64, dstMax float64) float64 {
 	norm := Norm(srcValue, srcMin, srcMax)
 	return Lerp(norm, dstMin, dstMax)
 }
@@ -53,12 +53,12 @@ func Clamp(value float64, min float64, max float64) float64 {
 
 // SinRange returns the sin of an angle mapped to a min/max range.
 func SinRange(angle float64, min float64, max float64) float64 {
-	return MapTo(math.Sin(angle), -1, 1, min, max)
+	return Map(math.Sin(angle), -1, 1, min, max)
 }
 
 // CosRange returns the cos of an angle mapped to a min/max range.
 func CosRange(angle float64, min float64, max float64) float64 {
-	return MapTo(math.Cos(angle), -1, 1, min, max)
+	return Map(math.Cos(angle), -1, 1, min, max)
 }
 
 // Equalish returns whether the two values are approximately equal.
