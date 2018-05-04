@@ -61,6 +61,11 @@ func CosRange(angle float64, min float64, max float64) float64 {
 	return Map(math.Cos(angle), -1, 1, min, max)
 }
 
+// LerpSin maps a normal value to min and max values with a sine wave.
+func LerpSin(value, min, max float64) float64 {
+	return SinRange(value*math.Pi*2, min, max)
+}
+
 // Equalish returns whether the two values are approximately equal.
 func Equalish(a float64, b float64, delta float64) bool {
 	return math.Abs(a-b) <= delta
