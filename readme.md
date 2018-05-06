@@ -2,9 +2,9 @@ install cairo
 
 https://cairographics.org/download/
 
-install bitlibgo:
+install blg:
 
-`go get github.com/bit101/bitlibgo`
+`go get github.com/bit101/blg`
 
 install go-cairo:
 
