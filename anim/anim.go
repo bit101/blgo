@@ -2,11 +2,6 @@ package anim
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
-	"os/exec"
-	"strconv"
 
 	"github.com/bit101/blg"
 )
@@ -16,63 +11,32 @@ type RenderCallback func(*blg.Surface, float64)
 
 // Animation is a animated gif maker.
 type Animation struct {
-	Width    float64
-	Height   float64
-	Frames   int
-	FPS      int
-	Filename string
+	Width      float64
+	Height     float64
+	FrameCount int
 }
 
 // NewAnimation creates a new animated gif project.
-func NewAnimation(filename string) *Animation {
+func NewAnimation(width, height float64, frameCount int) *Animation {
 	return &Animation{
-		Width:    200,
-		Height:   200,
-		Frames:   60,
-		FPS:      30,
-		Filename: filename,
+		Width:      width,
+		Height:     height,
+		FrameCount: frameCount,
 	}
 }
 
 // Render renders the gif
-func (p *Animation) Render(renderCallback RenderCallback) {
-
-	framesDir, err := ioutil.TempDir(".", "frames_")
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func (p *Animation) Render(framesDir string, prefix string, renderCallback RenderCallback) {
 	surface := blg.NewSurface(p.Width, p.Height)
-	makeFrames(surface, p.Frames, framesDir, renderCallback)
-
-	framesSpec := fmt.Sprintf("%s/*.png", framesDir)
-	convertGif(p.FPS, framesSpec, p.Filename)
-
-	os.RemoveAll(framesDir)
+	for i := 0; i < p.FrameCount; i++ {
+		renderCallback(surface, float64(i)/float64(p.FrameCount))
+		filename := fmt.Sprintf("%s/%s_%0.4d.png", framesDir, prefix, i)
+		surface.WriteToPNG(filename)
+	}
 }
 
 // SetSize sets the size
 func (p *Animation) SetSize(w float64, h float64) {
 	p.Width = w
 	p.Height = h
-}
-
-func makeFrames(surface *blg.Surface, numFrames int, framesDir string, renderFunc RenderCallback) {
-	for i := 0; i < numFrames; i++ {
-		renderFunc(surface, float64(i)/float64(numFrames))
-		filename := fmt.Sprintf("%s/anim_%0.3d.png", framesDir, i)
-		surface.WriteToPNG(filename)
-	}
-}
-
-// requires imagemagick to be installed.
-func convertGif(fps int, input string, output string) {
-	delay := 100.0 / float64(fps)
-	cmd := exec.Command("convert", "-delay", strconv.FormatFloat(delay, 'E', -1, 32), input, output)
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Gif saved as %s\n", output)
-
 }
