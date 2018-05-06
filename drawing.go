@@ -14,14 +14,14 @@ import (
 ////////////////////////////////////////
 
 // Line draws a line between two x, y points.
-func (s *BitSurface) Line(x0, y0, x1, y1 float64) {
+func (s *Surface) Line(x0, y0, x1, y1 float64) {
 	s.MoveTo(x0, y0)
 	s.LineTo(x1, y1)
 	s.Stroke()
 }
 
 // LineThrough draws a line through two x, y points.
-func (s *BitSurface) LineThrough(x0, y0, x1, y1, overlap float64) {
+func (s *Surface) LineThrough(x0, y0, x1, y1, overlap float64) {
 	s.Save()
 	s.Translate(x0, y0)
 	s.Rotate(math.Atan2(y1-y0, x1-x0))
@@ -38,7 +38,7 @@ func (s *BitSurface) LineThrough(x0, y0, x1, y1, overlap float64) {
 ////////////////////////////////////////
 
 // Ray draws a line at an angle.
-func (s *BitSurface) Ray(x, y, angle, offset, length float64) {
+func (s *Surface) Ray(x, y, angle, offset, length float64) {
 	s.Save()
 	s.Translate(x, y)
 	s.Rotate(angle)
@@ -53,13 +53,13 @@ func (s *BitSurface) Ray(x, y, angle, offset, length float64) {
 ////////////////////////////////////////
 
 // FillRectangle draws a filled rectancle.
-func (s *BitSurface) FillRectangle(x, y, w, h float64) {
+func (s *Surface) FillRectangle(x, y, w, h float64) {
 	s.Rectangle(x, y, w, h)
 	s.Fill()
 }
 
 // StrokeRectangle draws a stroked rectangle.
-func (s *BitSurface) StrokeRectangle(x, y, w, h float64) {
+func (s *Surface) StrokeRectangle(x, y, w, h float64) {
 	s.Rectangle(x, y, w, h)
 	s.Stroke()
 }
@@ -69,7 +69,7 @@ func (s *BitSurface) StrokeRectangle(x, y, w, h float64) {
 ////////////////////////////////////////
 
 // RoundRectangle draws a rounded rectangle.
-func (s *BitSurface) RoundRectangle(x, y, w, h, r float64) {
+func (s *Surface) RoundRectangle(x, y, w, h, r float64) {
 	s.MoveTo(x+r, y)
 	s.LineTo(x+w-r, y)
 	s.Arc(x+w-r, y+r, r, -blmath.HalfPi, 0.0)
@@ -82,13 +82,13 @@ func (s *BitSurface) RoundRectangle(x, y, w, h, r float64) {
 }
 
 // StrokeRoundRectangle draws a stroked, rounded rectangle.
-func (s *BitSurface) StrokeRoundRectangle(x, y, w, h, r float64) {
+func (s *Surface) StrokeRoundRectangle(x, y, w, h, r float64) {
 	s.RoundRectangle(x, y, w, h, r)
 	s.Stroke()
 }
 
 // FillRoundRectangle draws a filled, rounded rectangle.
-func (s *BitSurface) FillRoundRectangle(x, y, w, h, r float64) {
+func (s *Surface) FillRoundRectangle(x, y, w, h, r float64) {
 	s.RoundRectangle(x, y, w, h, r)
 	s.Fill()
 }
@@ -98,18 +98,18 @@ func (s *BitSurface) FillRoundRectangle(x, y, w, h, r float64) {
 ////////////////////////////////////////
 
 // Circle draws a circle
-func (s *BitSurface) Circle(x, y, r float64) {
+func (s *Surface) Circle(x, y, r float64) {
 	s.Arc(x, y, r, 0.0, blmath.TwoPi)
 }
 
 // FillCircle draws a filled circle.
-func (s *BitSurface) FillCircle(x, y, r float64) {
+func (s *Surface) FillCircle(x, y, r float64) {
 	s.Circle(x, y, r)
 	s.Fill()
 }
 
 // StrokeCircle draws a stroked circle.
-func (s *BitSurface) StrokeCircle(x, y, r float64) {
+func (s *Surface) StrokeCircle(x, y, r float64) {
 	s.Circle(x, y, r)
 	s.Stroke()
 }
@@ -119,7 +119,7 @@ func (s *BitSurface) StrokeCircle(x, y, r float64) {
 ////////////////////////////////////////
 
 // Ellipse draws an ellipse.
-func (s *BitSurface) Ellipse(x, y, xr, yr float64) {
+func (s *Surface) Ellipse(x, y, xr, yr float64) {
 	s.Save()
 	s.Translate(x, y)
 	s.Scale(xr, yr)
@@ -128,13 +128,13 @@ func (s *BitSurface) Ellipse(x, y, xr, yr float64) {
 }
 
 // FillEllipse draws a filled ellipse.
-func (s *BitSurface) FillEllipse(x, y, xr, yr float64) {
+func (s *Surface) FillEllipse(x, y, xr, yr float64) {
 	s.Ellipse(x, y, xr, yr)
 	s.Fill()
 }
 
 // StrokeEllipse draws a stroked ellipse.
-func (s *BitSurface) StrokeEllipse(x, y, xr, yr float64) {
+func (s *Surface) StrokeEllipse(x, y, xr, yr float64) {
 	s.Ellipse(x, y, xr, yr)
 	s.Stroke()
 }
@@ -144,20 +144,20 @@ func (s *BitSurface) StrokeEllipse(x, y, xr, yr float64) {
 ////////////////////////////////////////
 
 // Path draws a path of points.
-func (s *BitSurface) Path(points []*geom.Point) {
+func (s *Surface) Path(points []*geom.Point) {
 	for _, point := range points {
 		s.LineTo(point.X, point.Y)
 	}
 }
 
 // FillPath draws a filled path of points.
-func (s *BitSurface) FillPath(points []*geom.Point) {
+func (s *Surface) FillPath(points []*geom.Point) {
 	s.Path(points)
 	s.Fill()
 }
 
 // StrokePath draws a stroked path of points.
-func (s *BitSurface) StrokePath(points []*geom.Point, close bool) {
+func (s *Surface) StrokePath(points []*geom.Point, close bool) {
 	s.Path(points)
 	if close {
 		s.ClosePath()
@@ -170,7 +170,7 @@ func (s *BitSurface) StrokePath(points []*geom.Point, close bool) {
 ////////////////////////////////////////
 
 // Polygon draws a polygon.
-func (s *BitSurface) Polygon(x, y, r float64, sides int, rotation float64) {
+func (s *Surface) Polygon(x, y, r float64, sides int, rotation float64) {
 	s.Save()
 	s.Translate(x, y)
 	s.Rotate(rotation)
@@ -184,13 +184,13 @@ func (s *BitSurface) Polygon(x, y, r float64, sides int, rotation float64) {
 }
 
 // StrokePolygon draws a stroked polygon.
-func (s *BitSurface) StrokePolygon(x, y, r float64, sides int, rotation float64) {
+func (s *Surface) StrokePolygon(x, y, r float64, sides int, rotation float64) {
 	s.Polygon(x, y, r, sides, rotation)
 	s.Stroke()
 }
 
 // FillPolygon draws a filled polygon.
-func (s *BitSurface) FillPolygon(x, y, r float64, sides int, rotation float64) {
+func (s *Surface) FillPolygon(x, y, r float64, sides int, rotation float64) {
 	s.Polygon(x, y, r, sides, rotation)
 	s.Fill()
 }
@@ -200,7 +200,7 @@ func (s *BitSurface) FillPolygon(x, y, r float64, sides int, rotation float64) {
 ////////////////////////////////////////
 
 // Star draws a star.
-func (s *BitSurface) Star(x, y, r0, r1 float64, points int, rotation float64) {
+func (s *Surface) Star(x, y, r0, r1 float64, points int, rotation float64) {
 	s.Save()
 	s.Translate(x, y)
 	s.Rotate(rotation)
@@ -217,13 +217,13 @@ func (s *BitSurface) Star(x, y, r0, r1 float64, points int, rotation float64) {
 }
 
 // StrokeStar draws a stroked star.
-func (s *BitSurface) StrokeStar(x, y, r0, r1 float64, points int, rotation float64) {
+func (s *Surface) StrokeStar(x, y, r0, r1 float64, points int, rotation float64) {
 	s.Star(x, y, r0, r1, points, rotation)
 	s.Stroke()
 }
 
 // FillStar draws a filled star.
-func (s *BitSurface) FillStar(x, y, r0, r1 float64, points int, rotation float64) {
+func (s *Surface) FillStar(x, y, r0, r1 float64, points int, rotation float64) {
 	s.Star(x, y, r0, r1, points, rotation)
 	s.Fill()
 }
@@ -233,7 +233,7 @@ func (s *BitSurface) FillStar(x, y, r0, r1 float64, points int, rotation float64
 ////////////////////////////////////////
 
 // Splat draws a splat.
-func (s *BitSurface) Splat(
+func (s *Surface) Splat(
 	x, y float64,
 	numNodes int,
 	radius, innerRadius, variation float64,
@@ -270,7 +270,7 @@ func makePoint(angle, radius float64) *geom.Point {
 }
 
 // StrokeSplat draws a stroked splat
-func (s *BitSurface) StrokeSplat(
+func (s *Surface) StrokeSplat(
 	x, y float64,
 	numNodes int,
 	radius, innerRadius, variation float64,
@@ -280,7 +280,7 @@ func (s *BitSurface) StrokeSplat(
 }
 
 // FillSplat draws a filled splat.
-func (s *BitSurface) FillSplat(
+func (s *Surface) FillSplat(
 	x, y float64,
 	numNodes int,
 	radius, innerRadius, variation float64,
@@ -294,7 +294,7 @@ func (s *BitSurface) FillSplat(
 ////////////////////////////////////////
 
 // FractalLine draws a fractal line.
-func (s *BitSurface) FractalLine(x1, y1, x2, y2, roughness float64, iterations int) {
+func (s *Surface) FractalLine(x1, y1, x2, y2, roughness float64, iterations int) {
 	dx := x2 - x1
 	dy := y2 - y1
 	offset := math.Sqrt(dx*dx+dy*dy) * 0.15
@@ -319,7 +319,7 @@ func (s *BitSurface) FractalLine(x1, y1, x2, y2, roughness float64, iterations i
 	s.Path(path)
 }
 
-func (s *BitSurface) strokeFractalLine(x1, y1, x2, y2, roughness float64, iterations int) {
+func (s *Surface) strokeFractalLine(x1, y1, x2, y2, roughness float64, iterations int) {
 	s.FractalLine(x1, y1, x2, y2, roughness, iterations)
 	s.Stroke()
 }
@@ -329,7 +329,7 @@ func (s *BitSurface) strokeFractalLine(x1, y1, x2, y2, roughness float64, iterat
 ////////////////////////////////////////
 
 // Heart draws a heart shape.
-func (s *BitSurface) Heart(x, y, w, h, r float64) {
+func (s *Surface) Heart(x, y, w, h, r float64) {
 	s.Save()
 	s.Translate(x, y)
 	s.Rotate(r)
@@ -346,13 +346,13 @@ func (s *BitSurface) Heart(x, y, w, h, r float64) {
 }
 
 // FillHeart draws a filled heart shape.
-func (s *BitSurface) FillHeart(x, y, w, h, r float64) {
+func (s *Surface) FillHeart(x, y, w, h, r float64) {
 	s.Heart(x, y, w, h, r)
 	s.Fill()
 }
 
 // StrokeHeart draws a stroked heart shape.
-func (s *BitSurface) StrokeHeart(x, y, w, h, r float64) {
+func (s *Surface) StrokeHeart(x, y, w, h, r float64) {
 	s.Heart(x, y, w, h, r)
 	s.Stroke()
 }
@@ -362,7 +362,7 @@ func (s *BitSurface) StrokeHeart(x, y, w, h, r float64) {
 ////////////////////////////////////////
 
 // Points draws a number of points.
-func (s *BitSurface) Points(points []*geom.Point, radius float64) {
+func (s *Surface) Points(points []*geom.Point, radius float64) {
 	for _, point := range points {
 		s.FillCircle(point.X, point.Y, radius)
 	}
@@ -373,7 +373,7 @@ func (s *BitSurface) Points(points []*geom.Point, radius float64) {
 ////////////////////////////////////////
 
 // StrokeCurveTo draws a stroked curve.
-func (s *BitSurface) StrokeCurveTo(x0, y0, x1, y1, x2, y2 float64) {
+func (s *Surface) StrokeCurveTo(x0, y0, x1, y1, x2, y2 float64) {
 	s.CurveTo(x0, y0, x1, y1, x2, y2)
 	s.Stroke()
 }
@@ -383,7 +383,7 @@ func (s *BitSurface) StrokeCurveTo(x0, y0, x1, y1, x2, y2 float64) {
 ////////////////////////////////////////
 
 // QuadraticCurveTo draws a quadratic curve to two points.
-func (s *BitSurface) QuadraticCurveTo(x0, y0, x1, y1 float64) {
+func (s *Surface) QuadraticCurveTo(x0, y0, x1, y1 float64) {
 	px, py := s.GetCurrentPoint()
 	s.CurveTo(
 		2.0/3.0*x0+1.0/3.0*px,
@@ -395,7 +395,7 @@ func (s *BitSurface) QuadraticCurveTo(x0, y0, x1, y1 float64) {
 }
 
 // StrokeQuadraticCurveTo draws a stroked quadratic curve.
-func (s *BitSurface) StrokeQuadraticCurveTo(x0, y0, x1, y1 float64) {
+func (s *Surface) StrokeQuadraticCurveTo(x0, y0, x1, y1 float64) {
 	s.QuadraticCurveTo(x0, y0, x1, y1)
 	s.Stroke()
 }
@@ -405,7 +405,7 @@ func (s *BitSurface) StrokeQuadraticCurveTo(x0, y0, x1, y1 float64) {
 ////////////////////////////////////////
 
 // MultiCurve draws a smooth curve between a set of points.
-func (s *BitSurface) MultiCurve(points []*geom.Point) {
+func (s *Surface) MultiCurve(points []*geom.Point) {
 	s.MoveTo(points[0].X, points[0].Y)
 	s.LineTo(
 		(points[0].X+points[1].X)/2.0,
@@ -427,7 +427,7 @@ func (s *BitSurface) MultiCurve(points []*geom.Point) {
 }
 
 // StrokeMultiCurve draws a stroked curve between a set of points.
-func (s *BitSurface) StrokeMultiCurve(points []*geom.Point) {
+func (s *Surface) StrokeMultiCurve(points []*geom.Point) {
 	s.MultiCurve(points)
 	s.Stroke()
 }
@@ -437,7 +437,7 @@ func (s *BitSurface) StrokeMultiCurve(points []*geom.Point) {
 ////////////////////////////////////////
 
 // MultiLoop draws a smooth, closed curve between a set of points.
-func (s *BitSurface) MultiLoop(points []*geom.Point) {
+func (s *Surface) MultiLoop(points []*geom.Point) {
 	pA := points[0]
 	pZ := points[len(points)-1]
 	mid1x := (pZ.X + pA.X) / 2.0
@@ -454,13 +454,13 @@ func (s *BitSurface) MultiLoop(points []*geom.Point) {
 }
 
 // FillMultiLoop draws a filled, smooth, closed curve between a set of points.
-func (s *BitSurface) FillMultiLoop(points []*geom.Point) {
+func (s *Surface) FillMultiLoop(points []*geom.Point) {
 	s.MultiLoop(points)
 	s.Fill()
 }
 
 // StrokeMultiLoop draws a stroked, smooth, closed curve between a set of points.
-func (s *BitSurface) StrokeMultiLoop(points []*geom.Point) {
+func (s *Surface) StrokeMultiLoop(points []*geom.Point) {
 	s.MultiLoop(points)
 	s.Stroke()
 }
@@ -470,7 +470,7 @@ func (s *BitSurface) StrokeMultiLoop(points []*geom.Point) {
 ////////////////////////////////////////
 
 // Grid draws a grid.
-func (s *BitSurface) Grid(x, y, w, h, xres, yres float64) {
+func (s *Surface) Grid(x, y, w, h, xres, yres float64) {
 	xx := x
 	yy := y
 	for xx <= x+w {
