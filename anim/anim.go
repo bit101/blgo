@@ -8,11 +8,11 @@ import (
 	"os/exec"
 	"strconv"
 
-	"github.com/bit101/bitlibgo"
+	"github.com/bit101/blg"
 )
 
 // RenderCallback signature for the function that will be called each frame.
-type RenderCallback func(*bitlibgo.BitSurface, float64)
+type RenderCallback func(*blg.BitSurface, float64)
 
 // Animation is a animated gif maker.
 type Animation struct {
@@ -42,7 +42,7 @@ func (p *Animation) Render(renderCallback RenderCallback) {
 		log.Fatal(err)
 	}
 
-	surface := bitlibgo.NewBitSurface(p.Width, p.Height)
+	surface := blg.NewBitSurface(p.Width, p.Height)
 	makeFrames(surface, p.Frames, framesDir, renderCallback)
 
 	framesSpec := fmt.Sprintf("%s/*.png", framesDir)
@@ -57,7 +57,7 @@ func (p *Animation) SetSize(w float64, h float64) {
 	p.Height = h
 }
 
-func makeFrames(surface *bitlibgo.BitSurface, numFrames int, framesDir string, renderFunc RenderCallback) {
+func makeFrames(surface *blg.BitSurface, numFrames int, framesDir string, renderFunc RenderCallback) {
 	for i := 0; i < numFrames; i++ {
 		renderFunc(surface, float64(i)/float64(numFrames))
 		filename := fmt.Sprintf("%s/anim_%0.3d.png", framesDir, i)

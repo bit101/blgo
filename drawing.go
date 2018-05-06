@@ -1,12 +1,12 @@
-package bitlibgo
+package blg
 
 import (
 	"fmt"
 	"math"
 	"math/rand"
 
-	"github.com/bit101/bitlibgo/bitmath"
-	"github.com/bit101/bitlibgo/geom"
+	"github.com/bit101/blg/blmath"
+	"github.com/bit101/blg/geom"
 )
 
 ////////////////////////////////////////
@@ -72,13 +72,13 @@ func (s *BitSurface) StrokeRectangle(x, y, w, h float64) {
 func (s *BitSurface) RoundRectangle(x, y, w, h, r float64) {
 	s.MoveTo(x+r, y)
 	s.LineTo(x+w-r, y)
-	s.Arc(x+w-r, y+r, r, -bitmath.HalfPi, 0.0)
+	s.Arc(x+w-r, y+r, r, -blmath.HalfPi, 0.0)
 	s.LineTo(x+w, y+h-r)
-	s.Arc(x+w-r, y+h-r, r, 0.0, bitmath.HalfPi)
+	s.Arc(x+w-r, y+h-r, r, 0.0, blmath.HalfPi)
 	s.LineTo(x+r, y+h)
-	s.Arc(x+r, y+h-r, r, bitmath.HalfPi, math.Pi)
+	s.Arc(x+r, y+h-r, r, blmath.HalfPi, math.Pi)
 	s.LineTo(x, y+r)
-	s.Arc(x+r, y+r, r, math.Pi, -bitmath.HalfPi)
+	s.Arc(x+r, y+r, r, math.Pi, -blmath.HalfPi)
 }
 
 // StrokeRoundRectangle draws a stroked, rounded rectangle.
@@ -99,7 +99,7 @@ func (s *BitSurface) FillRoundRectangle(x, y, w, h, r float64) {
 
 // Circle draws a circle
 func (s *BitSurface) Circle(x, y, r float64) {
-	s.Arc(x, y, r, 0.0, bitmath.TwoPi)
+	s.Arc(x, y, r, 0.0, blmath.TwoPi)
 }
 
 // FillCircle draws a filled circle.
@@ -176,7 +176,7 @@ func (s *BitSurface) Polygon(x, y, r float64, sides int, rotation float64) {
 	s.Rotate(rotation)
 	s.MoveTo(r, 0.0)
 	for i := 0; i < sides; i++ {
-		angle := bitmath.TwoPi / float64(sides) * float64(i)
+		angle := blmath.TwoPi / float64(sides) * float64(i)
 		s.LineTo(math.Cos(angle)*r, math.Sin(angle)*r)
 	}
 	s.LineTo(r, 0.0)
@@ -239,11 +239,11 @@ func (s *BitSurface) Splat(
 	radius, innerRadius, variation float64,
 ) {
 	var points []*geom.Point
-	slice := bitmath.TwoPi / float64(numNodes*2)
+	slice := blmath.TwoPi / float64(numNodes*2)
 	angle := 0.0
 	curve := 0.3
 	radiusRange := radius - innerRadius
-	variation = bitmath.Clamp(variation, 0.0, 1.0)
+	variation = blmath.Clamp(variation, 0.0, 1.0)
 	for i := 0; i < numNodes; i++ {
 		radius := radius + variation*(rand.Float64()*radiusRange*2.0-radiusRange)
 		radiusRange := radius - innerRadius
@@ -336,7 +336,7 @@ func (s *BitSurface) Heart(x, y, w, h, r float64) {
 	var path []*geom.Point
 	res := math.Sqrt(w * h)
 	for i := 0; i < int(res); i++ {
-		a := bitmath.TwoPi * float64(i) / res
+		a := blmath.TwoPi * float64(i) / res
 		x := w * math.Pow(math.Sin(a), 3.0)
 		y := h*(0.8125*math.Cos(a)) - 0.3125*math.Cos(2.0*a) - 0.125*math.Cos(3.0*a) - 0.0625*math.Cos(4.0*a)
 		path = append(path, geom.NewPoint(x, -y))

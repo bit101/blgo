@@ -3,7 +3,7 @@ package geom
 import (
 	"math"
 
-	"github.com/bit101/bitlibgo/random"
+	"github.com/bit101/blg/random"
 )
 
 // Point 2d point

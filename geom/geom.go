@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math"
 
-	"github.com/bit101/bitlibgo/bitmath"
+	"github.com/bit101/blg/blmath"
 )
 
 // DotProduct returns the dot product between two lines.
@@ -27,8 +27,8 @@ func AngleBetween(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 // LerpPoint linearly interpolates between two points.
 func LerpPoint(t float64, p0 *Point, p1 *Point) Point {
 	return Point{
-		bitmath.Lerp(t, p0.X, p1.X),
-		bitmath.Lerp(t, p0.Y, p1.Y),
+		blmath.Lerp(t, p0.X, p1.X),
+		blmath.Lerp(t, p0.Y, p1.Y),
 	}
 }
 

@@ -1,4 +1,4 @@
-package bitmath
+package blmath
 
 import (
 	"math"

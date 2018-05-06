@@ -1,7 +1,7 @@
-package bitlibgo
+package blg
 
 import (
-	"github.com/bit101/bitlibgo/color"
+	"github.com/bit101/blg/color"
 	cairo "github.com/ungerik/go-cairo"
 )
 
