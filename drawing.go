@@ -413,7 +413,6 @@ func (s *Surface) MultiCurve(points []*geom.Point) {
 	)
 	i := 1
 	for i < len(points)-1 {
-		fmt.Println(i, points[i], points[i+1])
 		p0 := points[i]
 		p1 := points[i+1]
 		midx := (p0.X + p1.X) / 2.0
