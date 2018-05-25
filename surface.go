@@ -52,6 +52,15 @@ func (s *Surface) ClearRGB(r float64, g float64, b float64) {
 	s.Restore()
 }
 
+// ClearRGBA clears the surface to the given rgba color.
+func (s *Surface) ClearRGBA(r, g, b, a float64) {
+	s.Save()
+	// todo: set identity transform
+	s.SetSourceRGBA(r, g, b, a)
+	s.Paint()
+	s.Restore()
+}
+
 // ClearColor clears surface to given color.
 func (s *Surface) ClearColor(color color.Color) {
 	s.ClearRGB(color.R, color.G, color.B)
