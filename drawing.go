@@ -1,7 +1,6 @@
 package blg
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 
