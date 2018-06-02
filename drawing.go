@@ -1,11 +1,11 @@
-package blg
+package blgo
 
 import (
 	"math"
 	"math/rand"
 
-	"github.com/bit101/blg/blmath"
-	"github.com/bit101/blg/geom"
+	"github.com/bit101/blgo/blmath"
+	"github.com/bit101/blgo/geom"
 )
 
 ////////////////////////////////////////

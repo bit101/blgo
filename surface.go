@@ -1,7 +1,7 @@
-package blg
+package blgo
 
 import (
-	"github.com/bit101/blg/color"
+	"github.com/bit101/blgo/color"
 	cairo "github.com/ungerik/go-cairo"
 )
 

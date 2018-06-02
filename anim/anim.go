@@ -3,11 +3,11 @@ package anim
 import (
 	"fmt"
 
-	"github.com/bit101/blg"
+	"github.com/bit101/blgo"
 )
 
 // RenderCallback signature for the function that will be called each frame.
-type RenderCallback func(*blg.Surface, float64)
+type RenderCallback func(*blgo.Surface, float64)
 
 // Animation is a animated gif maker.
 type Animation struct {
@@ -27,7 +27,7 @@ func NewAnimation(width, height float64, frameCount int) *Animation {
 
 // Render renders the gif
 func (p *Animation) Render(framesDir string, prefix string, renderCallback RenderCallback) {
-	surface := blg.NewSurface(p.Width, p.Height)
+	surface := blgo.NewSurface(p.Width, p.Height)
 	for i := 0; i < p.FrameCount; i++ {
 		percent := float64(i) / float64(p.FrameCount)
 		fmt.Printf("\r%f", percent)

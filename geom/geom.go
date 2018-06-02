@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math"
 
-	"github.com/bit101/blg/blmath"
+	"github.com/bit101/blgo/blmath"
 )
 
 // DotProduct returns the dot product between two lines.
