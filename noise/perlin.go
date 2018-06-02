@@ -2,6 +2,7 @@ package noise
 
 import "math"
 
+// Perlin is perlin noise
 func Perlin(x, y, z float64) float64 {
 	X := int(math.Floor(x)) & 255
 	Y := int(math.Floor(y)) & 255

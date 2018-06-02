@@ -29,10 +29,13 @@ func NewAnimation(width, height float64, frameCount int) *Animation {
 func (p *Animation) Render(framesDir string, prefix string, renderCallback RenderCallback) {
 	surface := blg.NewSurface(p.Width, p.Height)
 	for i := 0; i < p.FrameCount; i++ {
-		renderCallback(surface, float64(i)/float64(p.FrameCount))
+		percent := float64(i) / float64(p.FrameCount)
+		fmt.Printf("\r%f", percent)
+		renderCallback(surface, percent)
 		filename := fmt.Sprintf("%s/%s_%0.4d.png", framesDir, prefix, i)
 		surface.WriteToPNG(filename)
 	}
+	fmt.Println()
 }
 
 // SetSize sets the size
