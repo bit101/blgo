@@ -34,11 +34,29 @@ func NewSurfaceFromPNG(filename string) (*Surface, cairo.Status) {
 	}, status
 }
 
+// NewSVGSurface creates a new surface for creating an SVG image. Finish with surface.Finish()
+func NewSVGSurface(filename string, width, height float64) *Surface {
+	return &Surface{
+		width,
+		height,
+		*cairo.NewSVGSurface(filename, width, height, cairo.SVG_VERSION_1_2),
+	}
+}
+
 // ClearRGB clears the surface to the given rgb color.
 func (s *Surface) ClearRGB(r float64, g float64, b float64) {
 	s.Save()
 	// todo: set identity transform
 	s.SetSourceRGB(r, g, b)
+	s.Paint()
+	s.Restore()
+}
+
+// ClearRGBA clears the surface to the given rgba color.
+func (s *Surface) ClearRGBA(r, g, b, a float64) {
+	s.Save()
+	// todo: set identity transform
+	s.SetSourceRGBA(r, g, b, a)
 	s.Paint()
 	s.Restore()
 }
