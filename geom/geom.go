@@ -7,6 +7,11 @@ import (
 	"github.com/bit101/blgo/blmath"
 )
 
+// Distance returns the distance between two x,y positions
+func Distance(x0, y0, x1, y1 float64) float64 {
+	return math.Hypot(x1-x0, y1-y0)
+}
+
 // DotProduct returns the dot product between two lines.
 func DotProduct(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 	dx0 := p1.X - p0.X

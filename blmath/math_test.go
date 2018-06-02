@@ -193,3 +193,33 @@ func TestCosRange(t *testing.T) {
 		}
 	}
 }
+
+func TestRoundTo(t *testing.T) {
+	var tests = []struct {
+		value   float64
+		decimal int
+		want    float64
+	}{
+		{1234.1234, 4, 1234.1234},
+		{1234.1234, 3, 1234.123},
+		{1234.1234, 2, 1234.12},
+		{1234.1234, 1, 1234.1},
+		{1234.1234, 0, 1234},
+		{1234.1234, -1, 1230},
+		{1234.1234, -2, 1200},
+		{1234.1234, -3, 1000},
+		{1234.1234, -4, 0},
+		{1234.5555, 4, 1234.5555},
+		{1234.5555, 3, 1234.556},
+		{1234.5555, 2, 1234.56},
+		{1234.5555, 1, 1234.6},
+		{1234.5555, 0, 1235},
+		{1234.5555, -1, 1230},
+	}
+	for _, test := range tests {
+		result := RoundTo(test.value, test.decimal)
+		if result != test.want {
+			t.Errorf("RoundTo(%f, %d) != %f", test.value, test.decimal, test.want)
+		}
+	}
+}

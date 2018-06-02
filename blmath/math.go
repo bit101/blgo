@@ -10,6 +10,11 @@ const TwoPi = math.Pi * 2
 // HalfPi pi / 2
 const HalfPi = math.Pi / 2
 
+// Difference returns the absolute value of the difference between two numbers.
+func Difference(a, b float64) float64 {
+	return math.Abs(a - b)
+}
+
 // Norm returns a normalized value in a min/max range.
 func Norm(value float64, min float64, max float64) float64 {
 	return (value - min) / (max - min)
@@ -49,6 +54,12 @@ func Clamp(value float64, min float64, max float64) float64 {
 		result = realMax
 	}
 	return result
+}
+
+// RoundTo rounds a number to the nearest decimal value.
+func RoundTo(value float64, decimal int) float64 {
+	mult := math.Pow(10.0, float64(decimal))
+	return math.Round(value*mult) / mult
 }
 
 // SinRange returns the sin of an angle mapped to a min/max range.
