@@ -67,6 +67,11 @@ func SinRange(angle float64, min float64, max float64) float64 {
 	return Map(math.Sin(angle), -1, 1, min, max)
 }
 
+// Fract returns the fractional part of a floating point number.
+func Fract(n float64) float64 {
+	return n - math.Floor(n)
+}
+
 // CosRange returns the cos of an angle mapped to a min/max range.
 func CosRange(angle float64, min float64, max float64) float64 {
 	return Map(math.Cos(angle), -1, 1, min, max)
