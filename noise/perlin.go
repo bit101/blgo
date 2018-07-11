@@ -1,6 +1,8 @@
 package noise
 
-import "math"
+import (
+	"math"
+)
 
 // Perlin is perlin noise
 func Perlin(x, y, z float64) float64 {
@@ -81,3 +83,20 @@ var permutation = []int{
 	222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180,
 }
 var p = append(permutation, permutation...)
+
+func PerlinOct(x, y, z float64, octaves int, persistence float64) float64 {
+	total := 0.0
+	frequency := 1.0
+	amplitude := 1.0
+	maxValue := 0.0 // Used for normalizing result to -1.0 - 1.0
+	for i := 0; i < octaves; i++ {
+		total += Perlin(x*frequency, y*frequency, z*frequency) * amplitude
+
+		maxValue += amplitude
+
+		amplitude *= persistence
+		frequency *= 2
+	}
+
+	return total / maxValue
+}
