@@ -12,8 +12,10 @@ func Seed(seed int64) {
 }
 
 // RandSeed seeds the prng with a random seed.
-func RandSeed() {
-	rand.Seed(int64(time.Now().Nanosecond()))
+func RandSeed() int64 {
+	seed := int64(time.Now().Nanosecond())
+	rand.Seed(seed)
+	return seed
 }
 
 // Float returns a random float from 0.0 to 1.0.

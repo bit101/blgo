@@ -77,3 +77,12 @@ func (s *Surface) GetPixel(x int, y int) (byte, byte, byte, byte) {
 	index := (y*s.GetWidth() + x) * 4
 	return data[index+2], data[index+1], data[index], data[index+3]
 }
+
+// FillText draws text
+func (s *Surface) FillText(text string, x, y float64) {
+	s.Save()
+	s.Translate(x, y)
+	s.ShowText(text)
+	s.Fill()
+	s.Restore()
+}
