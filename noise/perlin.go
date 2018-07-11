@@ -4,7 +4,17 @@ import (
 	"math"
 )
 
-// Perlin is perlin noise
+// Perlin1 is 1d perlin noise
+func Perlin1(x float64) float64 {
+	return Perlin(x, 0, 0)
+}
+
+// Perlin2 is 2d perlin noise
+func Perlin2(x, y float64) float64 {
+	return Perlin(x, y, 0)
+}
+
+// Perlin is 3d perlin noise
 func Perlin(x, y, z float64) float64 {
 	X := int(math.Floor(x)) & 255
 	Y := int(math.Floor(y)) & 255
@@ -84,6 +94,8 @@ var permutation = []int{
 }
 var p = append(permutation, permutation...)
 
+// PerlinOct creates Perlin noise with given number of octaves.
+// persistence does well at 0.5 to start with.
 func PerlinOct(x, y, z float64, octaves int, persistence float64) float64 {
 	total := 0.0
 	frequency := 1.0
