@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/bit101/blgo/blmath"
+	"github.com/bit101/blgo/random"
 )
 
 // Distance returns the distance between two x,y positions
@@ -107,4 +108,14 @@ func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) Poin
 		circle.Center.X + math.Cos(totalAngle)*circle.Radius,
 		circle.Center.Y + math.Sin(totalAngle)*circle.Radius,
 	}
+}
+
+// RandomPointInTriangle returns a randomly generated point within the triangle described by the given points.
+func RandomPointInTriangle(A, B, C *Point) *Point {
+	s := random.Float()
+	t := random.Float()
+	a := 1.0 - math.Sqrt(t)
+	b := (1.0 - s) * math.Sqrt(t)
+	c := s * math.Sqrt(t)
+	return NewPoint(a*A.X+b*B.X+c*C.X, a*A.Y+b*B.Y+c*C.Y)
 }
