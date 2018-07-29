@@ -10,7 +10,7 @@ install blgo:
 
 install go-cairo:
 
-https://github.com/ungerik/go-cairo
+https://github.com/bit101/go-cairo
 
-`go get github.com/ungerik/go-cairo`
+`go get github.com/bit101/go-cairo`
 

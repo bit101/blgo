@@ -119,6 +119,9 @@ func (s *Surface) StrokeCircle(x, y, r float64) {
 
 // Ellipse draws an ellipse.
 func (s *Surface) Ellipse(x, y, xr, yr float64) {
+	if xr == 0 || yr == 0 {
+		return
+	}
 	s.Save()
 	s.Translate(x, y)
 	s.Scale(xr, yr)

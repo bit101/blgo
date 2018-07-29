@@ -7,39 +7,32 @@ import (
 )
 
 // RenderCallback signature for the function that will be called each frame.
-type RenderCallback func(*blgo.Surface, float64)
+type RenderCallback func(float64)
 
 // Animation is a animated gif maker.
 type Animation struct {
-	Width      float64
-	Height     float64
+	Surface    *blgo.Surface
 	FrameCount int
+	FramesDir  string
 }
 
 // NewAnimation creates a new animated gif project.
-func NewAnimation(width, height float64, frameCount int) *Animation {
+func NewAnimation(surface *blgo.Surface, frameCount int, framesDir string) *Animation {
 	return &Animation{
-		Width:      width,
-		Height:     height,
+		Surface:    surface,
 		FrameCount: frameCount,
+		FramesDir:  framesDir,
 	}
 }
 
 // Render renders the gif
-func (p *Animation) Render(framesDir string, prefix string, renderCallback RenderCallback) {
-	surface := blgo.NewSurface(p.Width, p.Height)
+func (p *Animation) Render(renderCallback RenderCallback) {
 	for i := 0; i < p.FrameCount; i++ {
 		percent := float64(i) / float64(p.FrameCount)
 		fmt.Printf("\r%f", percent)
-		renderCallback(surface, percent)
-		filename := fmt.Sprintf("%s/%s_%0.4d.png", framesDir, prefix, i)
-		surface.WriteToPNG(filename)
+		renderCallback(percent)
+		filename := fmt.Sprintf("%s/frame_%0.4d.png", p.FramesDir, i)
+		p.Surface.WriteToPNG(filename)
 	}
 	fmt.Println()
-}
-
-// SetSize sets the size
-func (p *Animation) SetSize(w float64, h float64) {
-	p.Width = w
-	p.Height = h
 }

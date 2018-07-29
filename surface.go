@@ -2,7 +2,7 @@ package blgo
 
 import (
 	"github.com/bit101/blgo/color"
-	cairo "github.com/ungerik/go-cairo"
+	cairo "github.com/bit101/go-cairo"
 )
 
 // Surface represents a drawing surface with added methods.
@@ -17,14 +17,14 @@ func NewSurface(width float64, height float64) *Surface {
 	return &Surface{
 		width,
 		height,
-		*cairo.NewSurface(cairo.FORMAT_ARGB32, int(width), int(height)),
+		*cairo.NewSurface(cairo.FormatARGB32, int(width), int(height)),
 	}
 }
 
 // NewSurfaceFromPNG creates a new Surface.
 func NewSurfaceFromPNG(filename string) (*Surface, cairo.Status) {
 	surface, status := cairo.NewSurfaceFromPNG(filename)
-	if status != cairo.STATUS_SUCCESS {
+	if status != cairo.StatusSuccess {
 		return nil, status
 	}
 	return &Surface{
@@ -39,7 +39,7 @@ func NewSVGSurface(filename string, width, height float64) *Surface {
 	return &Surface{
 		width,
 		height,
-		*cairo.NewSVGSurface(filename, width, height, cairo.SVG_VERSION_1_2),
+		*cairo.NewSVGSurface(filename, width, height, cairo.SVGVersion12),
 	}
 }
 
