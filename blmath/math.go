@@ -62,6 +62,11 @@ func RoundTo(value float64, decimal int) float64 {
 	return math.Round(value*mult) / mult
 }
 
+// RoundToNearest rounds a number to the nearest multiple of a value.
+func RoundToNearest(value float64, mult float64) float64 {
+	return math.Round(value/mult) * mult
+}
+
 // SinRange returns the sin of an angle mapped to a min/max range.
 func SinRange(angle float64, min float64, max float64) float64 {
 	return Map(math.Sin(angle), -1, 1, min, max)

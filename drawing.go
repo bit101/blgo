@@ -8,6 +8,13 @@ import (
 	"github.com/bit101/blgo/geom"
 )
 
+func (s *Surface) Plot(p *geom.Point) {
+	s.Save()
+	s.Translate(p.X, p.Y)
+	s.FillRectangle(-0.5, -0.5, 1, 1)
+	s.Restore()
+}
+
 ////////////////////////////////////////
 // Line
 ////////////////////////////////////////

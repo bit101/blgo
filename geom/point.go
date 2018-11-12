@@ -28,6 +28,15 @@ func RandomPoint(x, y, w, h float64) *Point {
 	}
 }
 
+func RandomPolarPoint(x, y, r float64) *Point {
+	angle := random.FloatRange(0, math.Pi*2)
+	radius := random.FloatRange(0, r)
+	return &Point{
+		X: x + math.Cos(angle)*radius,
+		Y: y + math.Sin(angle)*radius,
+	}
+}
+
 // FromPolar creates a new point from and angle and radius.
 func FromPolar(angle float64, radius float64) Point {
 	return Point{math.Cos(angle) * radius, math.Sin(angle) * radius}
