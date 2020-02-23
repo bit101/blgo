@@ -170,6 +170,14 @@ func TestHSV(t *testing.T) {
 	}
 }
 
+func TestLerp(t *testing.T) {
+	result := Lerp(Color{0.0, 0.0, 0.0, 1.0}, Color{0.5, 1.0, 0.0, 1.0}, 0.5)
+	want := Color{0.25, 0.5, 0.0, 1.0}
+	if result != want {
+		t.Errorf("%v != %v", result, want)
+	}
+}
+
 func TestGrey(t *testing.T) {
 	result := Grey(0)
 	want := Color{0, 0, 0, 1}

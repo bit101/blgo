@@ -40,6 +40,15 @@ func NumberWithAlpha(value int) Color {
 	return RGBAHex(r, g, b, a)
 }
 
+// Lerp creates a new color by interpolating between two other colors
+func Lerp(colorA, colorB Color, t float64) Color {
+	r := colorA.R + (colorB.R-colorA.R)*t
+	g := colorA.G + (colorB.G-colorA.G)*t
+	b := colorA.B + (colorB.B-colorA.B)*t
+	a := colorA.A + (colorB.A-colorA.A)*t
+	return RGBA(r, g, b, a)
+}
+
 // RGBHex creates a Color struct with rgb values from 0 to 255 (a = 255).
 func RGBHex(r int, g int, b int) Color {
 	return RGBAHex(r, g, b, 255)

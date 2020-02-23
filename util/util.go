@@ -43,3 +43,12 @@ func ViewImage(imagePath string) {
 		log.Fatal(err)
 	}
 }
+
+// VLC launches vlc to play a video
+func VLC(fileName string) {
+	cmd := exec.Command("vlc", fileName)
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
