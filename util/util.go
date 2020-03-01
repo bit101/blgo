@@ -3,7 +3,9 @@ package util
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 )
 
@@ -51,4 +53,14 @@ func VLC(fileName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// ParentDir returns the immediated directory name of the current working directory.
+func ParentDir() string {
+	wd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Cannot get directory.")
+		os.Exit(1)
+	}
+	return filepath.Base(wd)
 }
