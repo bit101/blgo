@@ -13,7 +13,7 @@ import (
 func ConvertToGIF(folder, outFileName string, fps float64) {
 	delay := fmt.Sprintf("%f", 1000.0/fps/10.0)
 	path := folder + "/*.png"
-	cmd := exec.Command("convert", "-delay", delay, path, outFileName)
+	cmd := exec.Command("convert", "-delay", delay, "-layers", "Optimize", path, outFileName)
 	err := cmd.Run()
 	if err != nil {
 		log.Fatal(err)
