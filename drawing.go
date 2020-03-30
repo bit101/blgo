@@ -5,9 +5,11 @@ import (
 	"math/rand"
 
 	"github.com/bit101/blgo/blmath"
+	"github.com/bit101/blgo/floodfill"
 	"github.com/bit101/blgo/geom"
 )
 
+// Plot draws a single pixel.
 func (s *Surface) Plot(p *geom.Point) {
 	s.Save()
 	s.Translate(p.X, p.Y)
@@ -471,6 +473,15 @@ func (s *Surface) FillMultiLoop(points []*geom.Point) {
 func (s *Surface) StrokeMultiLoop(points []*geom.Point) {
 	s.MultiLoop(points)
 	s.Stroke()
+}
+
+////////////////////////////////////////
+// FloodFill
+////////////////////////////////////////
+
+// FloodFill fills adjacent pixels with a specified color
+func (s *Surface) FloodFill(x, y, r, g, b, threshold float64) {
+	floodfill.FloodFill(s, x, y, r, g, b, threshold)
 }
 
 ////////////////////////////////////////
