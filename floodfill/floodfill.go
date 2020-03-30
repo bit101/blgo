@@ -43,7 +43,7 @@ func FloodFill(surface Surface, x, y, r, g, b float64, threshold float64) {
 	// helper func. if coord is in bounds and has target color, change to replacement color and add to queue
 	checkNeighbor := func(x, y int) {
 		neighbor := newCoord(x, y, w)
-		if neighbor.x < w-1 && neighbor.x > 0 && neighbor.y < h-1 && neighbor.y > 0 &&
+		if neighbor.x < w && neighbor.x >= 0 && neighbor.y < h && neighbor.y >= 0 &&
 			getRGB(data, neighbor).isEqual(targetRGB, th) {
 
 			setRGB(data, neighbor, replacementRGB)
