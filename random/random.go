@@ -48,3 +48,60 @@ func Boolean() bool {
 func WeightedBool(weight float64) bool {
 	return rand.Float64() < weight
 }
+
+// Power returns a random number raised to a power.
+func Power(min, max, power float64) float64 {
+	return min + math.Pow(Float(), power)*(max-min)
+}
+
+// Gauss returns an averaged random within a range.
+func Gauss(min, max float64, gauss int) float64 {
+	total := 0.0
+	for i := 0; i < gauss; i++ {
+		total += FloatRange(min, max)
+	}
+	return total / float64(gauss)
+}
+
+// String returns a random string.
+func String(length int) string {
+	s := ""
+	for i := 0; i < length; i++ {
+		c := rune(IntRange(33, 127))
+		s += string(c)
+	}
+	return s
+}
+
+// StringLower returns a random lower case string.
+func StringLower(length int) string {
+	s := ""
+	for i := 0; i < length; i++ {
+		c := rune(IntRange(97, 122))
+		s += string(c)
+	}
+	return s
+}
+
+// StringUpper returns a random upper case string.
+func StringUpper(length int) string {
+	s := ""
+	for i := 0; i < length; i++ {
+		c := rune(IntRange(65, 90))
+		s += string(c)
+	}
+	return s
+}
+
+// StringAlpha returns a random string of letters.
+func StringAlpha(length int) string {
+	s := ""
+	for i := 0; i < length; i++ {
+		c := rune(IntRange(65, 117))
+		if c > 90 {
+			c += 6
+		}
+		s += string(c)
+	}
+	return s
+}

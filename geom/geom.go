@@ -3,9 +3,6 @@ package geom
 import (
 	"errors"
 	"math"
-
-	"github.com/bit101/blgo/blmath"
-	"github.com/bit101/blgo/random"
 )
 
 // Distance returns the distance between two x,y positions
@@ -30,12 +27,26 @@ func AngleBetween(p0 *Point, p1 *Point, p2 *Point, p3 *Point) float64 {
 	return math.Acos(dp / mag0 / mag1)
 }
 
-// LerpPoint linearly interpolates between two points.
-func LerpPoint(t float64, p0 *Point, p1 *Point) Point {
-	return Point{
-		blmath.Lerp(t, p0.X, p1.X),
-		blmath.Lerp(t, p0.Y, p1.Y),
-	}
+// InRect returns whether or not an x, y point is within a rectangle.
+func InRect(xp, yp, x, y, w, h float64) bool {
+	return xp >= x && xp <= x+w && yp >= y && yp <= y+h
+}
+
+// PointInRect returns whether or not an x, y point is within a rectangle.
+func PointInRect(p *Point, x, y, w, h float64) bool {
+	return InRect(p.X, p.Y, x, y, w, h)
+}
+
+// InCircle returns whether or not an x, y point is within a circle.
+func InCircle(xp, yp, x, y, r float64) bool {
+	dx := xp - x
+	dy := yp - y
+	return math.Sqrt(dx*dx+dy*dy) <= r
+}
+
+// PointInCircle returns whether or not an x, y point is within a circle.
+func PointInCircle(p *Point, x, y, r float64) bool {
+	return InCircle(p.X, p.Y, x, y, r)
 }
 
 // BezierPoint calculates a point along a Bezier curve.
@@ -108,14 +119,4 @@ func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) Poin
 		circle.Center.X + math.Cos(totalAngle)*circle.Radius,
 		circle.Center.Y + math.Sin(totalAngle)*circle.Radius,
 	}
-}
-
-// RandomPointInTriangle returns a randomly generated point within the triangle described by the given points.
-func RandomPointInTriangle(A, B, C *Point) *Point {
-	s := random.Float()
-	t := random.Float()
-	a := 1.0 - math.Sqrt(t)
-	b := (1.0 - s) * math.Sqrt(t)
-	c := s * math.Sqrt(t)
-	return NewPoint(a*A.X+b*B.X+c*C.X, a*A.Y+b*B.Y+c*C.Y)
 }

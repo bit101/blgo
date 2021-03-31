@@ -1,6 +1,9 @@
 package random
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestSeed(t *testing.T) {
 	Seed(0)
@@ -77,5 +80,49 @@ func TestWeightedBool(t *testing.T) {
 	// can do better here.
 	if value != true && value != false {
 		t.Errorf("%t not boolean", value)
+	}
+}
+
+func TestRandomString(t *testing.T) {
+	value := String(10)
+	if len(value) != 10 {
+		t.Error("string should have 10 characters")
+	}
+}
+
+func TestRandomStringLower(t *testing.T) {
+	value := StringLower(10)
+	if len(value) != 10 {
+		t.Error("string should have 10 characters")
+	}
+	for _, c := range value {
+		if c < 'a' || c > 'z' {
+			t.Error("All chars of string should be lower case letters.")
+		}
+	}
+}
+
+func TestRandomStringUpper(t *testing.T) {
+	value := StringUpper(10)
+	if len(value) != 10 {
+		t.Error("string should have 10 characters")
+	}
+	for _, c := range value {
+		if c < 'A' || c > 'Z' {
+			t.Error("All chars of string should be upper case letters.")
+		}
+	}
+}
+
+func TestRandomStringAlpha(t *testing.T) {
+	value := StringAlpha(10)
+	fmt.Println(value)
+	if len(value) != 10 {
+		t.Error("string should have 10 characters")
+	}
+	for _, c := range value {
+		if (c < 'A' || c > 'Z') && (c < 'a' || c > 'z') {
+			t.Error("All chars of string should be upper case letters.")
+		}
 	}
 }

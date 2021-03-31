@@ -504,3 +504,44 @@ func (s *Surface) Grid(x, y, w, h, xres, yres float64) {
 	}
 	s.Stroke()
 }
+
+////////////////////////////////////////
+// Grid
+////////////////////////////////////////
+
+// HexGrid draws a hexagonal grid
+func (s *Surface) HexGrid(x, y, w, h, res0, res1 float64) {
+	sin60r := math.Sin(math.Pi/3.0) * res0
+	xInc := 2.0 * sin60r
+	yInc := res0 * 1.5
+	offset := 0.0
+
+	for yy := y; yy < y+h+yInc; yy += yInc {
+		for xx := x; xx < x+w+xInc; xx += xInc {
+			s.Polygon(xx+offset, yy, res1, 6, math.Pi/2)
+		}
+		if offset == 0 {
+			offset = sin60r
+		} else {
+			offset = 0
+		}
+	}
+}
+
+func (s *Surface) FillHexGrid(x, y, w, h, res0, res1 float64) {
+	s.Save()
+	s.Rectangle(x, y, w, h)
+	s.Clip()
+	s.HexGrid(x, y, w, h, res0, res1)
+	s.Fill()
+	s.Restore()
+}
+
+func (s *Surface) StrokeHexGrid(x, y, w, h, res0, res1 float64) {
+	s.Save()
+	s.Rectangle(x, y, w, h)
+	s.Clip()
+	s.HexGrid(x, y, w, h, res0, res1)
+	s.Stroke()
+	s.Restore()
+}

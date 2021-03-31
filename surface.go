@@ -66,6 +66,21 @@ func (s *Surface) ClearColor(color color.Color) {
 	s.ClearRGB(color.R, color.G, color.B)
 }
 
+// ClearWhite clears surface to white.
+func (s *Surface) ClearWhite() {
+	s.ClearRGB(1, 1, 1)
+}
+
+// ClearBlack clears surface to white.
+func (s *Surface) ClearBlack() {
+	s.ClearRGB(0, 0, 0)
+}
+
+// ClearGrey clears surface to white.
+func (s *Surface) ClearGrey(g float64) {
+	s.ClearRGB(g, g, g)
+}
+
 // SetSourceColor sets the source to the given color.
 func (s *Surface) SetSourceColor(color color.Color) {
 	s.SetSourceRGBA(color.R, color.G, color.B, color.A)
