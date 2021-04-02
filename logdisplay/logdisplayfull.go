@@ -1,3 +1,5 @@
+package logdisplay
+
 import "math"
 
 // LogDisplayFilled represents a bit array. All elements are filled with arbitrary values.
