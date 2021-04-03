@@ -23,9 +23,10 @@ func NewLogDisplayFilled(width, height int) *LogDisplayFilled {
 }
 
 // Set sets the raw value of a pixel.
-func (d *LogDisplayFilled) Set(value float64, x, y int) {
-	if x >= 0 && x < d.width && y >= 0 && y < d.height {
-		index := x + y*d.width
+func (d *LogDisplayFilled) Set(value, x, y float64) {
+	xx, yy := int(x), int(y)
+	if xx >= 0 && xx < d.width && yy >= 0 && yy < d.height {
+		index := xx + yy*d.width
 		d.values[index] = value
 		if value > d.max {
 			d.max = value
@@ -37,7 +38,8 @@ func (d *LogDisplayFilled) Set(value float64, x, y int) {
 }
 
 // Get calculates the logarithmic value of the pixel.
-func (d *LogDisplayFilled) Get(x, y int) float64 {
-	value := d.values[x+y*d.width]
+func (d *LogDisplayFilled) Get(x, y float64) float64 {
+	xx, yy := int(x), int(y)
+	value := d.values[xx+yy*d.width]
 	return math.Log(value-d.min) / math.Log(d.max-d.min)
 }

@@ -101,3 +101,15 @@ func (s *Surface) FillText(text string, x, y float64) {
 	s.Fill()
 	s.Restore()
 }
+
+// TraverseFunc defines a callback function for traversing a surface.
+type TraverseFunc func(x, y float64)
+
+// Traverse calls a callback function for every x, y "pixel" on a surface
+func (s *Surface) Traverse(callback TraverseFunc) {
+	for x := 0.0; x < s.Width; x++ {
+		for y := 0.0; y < s.Height; y++ {
+			callback(x, y)
+		}
+	}
+}
