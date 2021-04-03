@@ -2,6 +2,7 @@ package blgo
 
 import (
 	"github.com/bit101/blgo/color"
+	"github.com/bit101/blgo/geom"
 	cairo "github.com/bit101/go-cairo"
 )
 
@@ -91,6 +92,16 @@ func (s *Surface) GetPixel(x int, y int) (byte, byte, byte, byte) {
 	data := s.GetData()
 	index := (y*s.GetWidth() + x) * 4
 	return data[index+2], data[index+1], data[index], data[index+3]
+}
+
+// GetBounds returns a rectangle defined by the size of the surface.
+func (s *Surface) GetBounds() *geom.Rectangle {
+	return geom.NewRectangle(0, 0, s.Width, s.Height)
+}
+
+// GetAspectRatio returns the aspect ratio of the surface (width / height).
+func (s *Surface) GetAspectRatio() float64 {
+	return s.Width / s.Height
 }
 
 // FillText draws text
