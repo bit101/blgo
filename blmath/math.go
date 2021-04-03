@@ -91,3 +91,17 @@ func LerpSin(value, min, max float64) float64 {
 func Equalish(a float64, b float64, delta float64) bool {
 	return math.Abs(a-b) <= delta
 }
+
+// ComplexImagAbs returns a complex number with the real component and the abolute value of the imaginary component.
+// Useful for certain types of fractals, such as "duck fractals"
+func ComplexImagAbs(z complex128) complex128 {
+	if imag(z) < 0 {
+		return complex(real(z), -imag(z))
+	}
+	return z
+}
+
+// ComplexMagnitude returns the magnitude of a complex number
+func ComplexMagnitude(z complex128) float64 {
+	return math.Hypot(real(z), imag(z))
+}

@@ -73,3 +73,30 @@ func TestLerpPoint(t *testing.T) {
 	}
 
 }
+
+func TestMapRectangle(t *testing.T) {
+	r0 := NewRectangle(0, 0, 100, 100)
+	r1 := NewRectangle(200, 200, 400, 400)
+	var tests = []struct {
+		r0    *Rectangle
+		r1    *Rectangle
+		x     float64
+		y     float64
+		wantX float64
+		wantY float64
+	}{
+		{r0, r1, 0, 0, 200, 200},
+		{r0, r1, 100, 100, 600, 600},
+		{r0, r1, 0, 100, 200, 600},
+		{r0, r1, 100, 0, 600, 200},
+		{r0, r1, 50, 50, 400, 400},
+		{r0, r1, 25, 75, 300, 500},
+	}
+
+	for _, test := range tests {
+		x, y := MapRectangle(test.x, test.y, test.r0, test.r1)
+		if x != test.wantX || y != test.wantY {
+			t.Errorf("MapRectangle(%f, %f, %v, %v) != %f, %f", test.x, test.y, test.r0, test.r1, x, y)
+		}
+	}
+}

@@ -223,3 +223,45 @@ func TestRoundTo(t *testing.T) {
 		}
 	}
 }
+
+func TestComplexMag(t *testing.T) {
+	var tests = []struct {
+		value complex128
+		want  float64
+	}{
+		{complex(3, 4), 5.0},
+		{complex(4, 3), 5.0},
+		{complex(5, 12), 13.0},
+		{complex(12, 5), 13.0},
+		{complex(21, 28), 35.0},
+		{complex(28, 21), 35.0},
+	}
+	for _, test := range tests {
+		result := ComplexMagnitude(test.value)
+		if result != test.want {
+			t.Errorf("ComplexMagnitude(%f) != %f", test.value, test.want)
+		}
+	}
+}
+
+func TestComplexImagAbs(t *testing.T) {
+	var tests = []struct {
+		value complex128
+		want  complex128
+	}{
+		{complex(4, -5), complex(4, 5)},
+		{complex(4, 5), complex(4, 5)},
+		{complex(-4, -5), complex(-4, 5)},
+		{complex(-4, 5), complex(-4, 5)},
+		{complex(4.2, -5.3), complex(4.2, 5.3)},
+		{complex(4.2, 5.3), complex(4.2, 5.3)},
+		{complex(-4.2, -5.3), complex(-4.2, 5.3)},
+		{complex(-4.2, 5.3), complex(-4.2, 5.3)},
+	}
+	for _, test := range tests {
+		result := ComplexImagAbs(test.value)
+		if result != test.want {
+			t.Errorf("ComplexImagAbs(%f) != %f", test.value, test.want)
+		}
+	}
+}
