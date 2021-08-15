@@ -93,6 +93,13 @@ func HSV(h float64, s float64, v float64) Color {
 	}
 }
 
+// HSVA creates a Color struct using hue (0.0 - 360.0), value (0.0 - 1.0), value (0.0 - 1.0) and alpha (0.0 - 1.0).
+func HSVA(h float64, s float64, v float64, a float64) Color {
+	c := HSV(h, s, v)
+	c.A = a
+	return c
+}
+
 // Grey creates a new Color struct with rgb all equal to the same value from 0.0 to 1.0 (a = 1.0).
 func Grey(shade float64) Color {
 	return RGB(shade, shade, shade)

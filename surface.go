@@ -87,6 +87,11 @@ func (s *Surface) SetSourceColor(color color.Color) {
 	s.SetSourceRGBA(color.R, color.G, color.B, color.A)
 }
 
+// SetSourceHSV sets the source to a color created with the given hue, saturation and value.
+func (s *Surface) SetSourceHSV(hue, sat, val float64) {
+	s.SetSourceColor(color.HSV(hue, sat, val))
+}
+
 // GetPixel returns the b, g, r, a value at a given x, y location.
 func (s *Surface) GetPixel(x int, y int) (byte, byte, byte, byte) {
 	data := s.GetData()

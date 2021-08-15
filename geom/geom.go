@@ -49,6 +49,11 @@ func PointInCircle(p *Point, x, y, r float64) bool {
 	return InCircle(p.X, p.Y, x, y, r)
 }
 
+// XYToPolar returns an angle and distance to origin from a given x, y location.
+func XYToPolar(x, y float64) (float64, float64) {
+	return math.Atan2(y, x), math.Hypot(x, y)
+}
+
 // BezierPoint calculates a point along a Bezier curve.
 func BezierPoint(p0 Point, p1 Point, p2 Point, p3 Point, t float64) Point {
 	oneMinusT := 1.0 - t
