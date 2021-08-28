@@ -41,6 +41,11 @@ func (s *Sketch) RenderImage(width, height, t float64) {
 	util.ViewImage(outFileName)
 }
 
+func (s *Sketch) RenderFrames(width, height float64, seconds, fps int) {
+	s.SetSize(width, height)
+	s.renderAnim(seconds, fps)
+}
+
 func (s *Sketch) RenderGif(width, height float64, seconds, fps int) {
 	outFileName := "out.gif"
 	s.SetSize(width, height)
