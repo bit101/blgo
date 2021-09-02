@@ -39,9 +39,30 @@ func RandomPoint3D(minX, maxX, minY, maxY, minZ, maxZ float64) *Point3D {
 	}
 }
 
-func RandomPointOnSphere(x, y, z, radius float64) *Point3D {
-	p := RandomPoint3D(-1, 1, -1, 1, -1, 1)
-	return p.Norm().Scale(radius)
+func RandomPointOnSphere(radius float64) *Point3D {
+	return PointOnSphere(random.Float(), random.Float(), radius)
+}
+
+func PointOnSphere(u, v, radius float64) *Point3D {
+	phi := math.Acos(2*v - 1)
+	theta := math.Pi * 2 * u
+
+	x := radius * math.Sin(theta) * math.Sin(phi)
+	y := radius * math.Cos(phi)
+	z := radius * math.Cos(theta) * math.Sin(phi)
+
+	return NewPoint3D(x, y, z)
+}
+
+func RandomPointOnTorus(r0, r1 float64) *Point3D {
+	a1 := random.FloatRange(0, math.Pi*2)
+	x1 := r0 + math.Cos(a1)*r1
+	y := math.Sin(a1) * r1
+
+	a0 := random.FloatRange(0, math.Pi*2)
+	x := x1 * math.Cos(a0)
+	z := x1 * math.Sin(a0)
+	return NewPoint3D(x, y, z)
 }
 
 func (p *Point3D) Mag() float64 {
