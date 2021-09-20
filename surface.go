@@ -111,7 +111,7 @@ func (s *Surface) GetPixel(x int, y int) (byte, byte, byte, byte) {
 	return data[index+2], data[index+1], data[index], data[index+3]
 }
 
-func (s *surface) Center() {
+func (s *Surface) Center() {
 	s.Translate(s.Width/2, s.Height/2)
 }
 
