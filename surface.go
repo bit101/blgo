@@ -92,11 +92,27 @@ func (s *Surface) SetSourceHSV(hue, sat, val float64) {
 	s.SetSourceColor(color.HSV(hue, sat, val))
 }
 
+func (s *Surface) SetSourceBlack() {
+	s.SetSourceRGB(0, 0, 0)
+}
+
+func (s *Surface) SetSourceWhite() {
+	s.SetSourceRGB(1, 1, 1)
+}
+
+func (s *Surface) SetSourceGray(gray float64) {
+	s.SetSourceRGB(gray, gray, gray)
+}
+
 // GetPixel returns the b, g, r, a value at a given x, y location.
 func (s *Surface) GetPixel(x int, y int) (byte, byte, byte, byte) {
 	data := s.GetData()
 	index := (y*s.GetWidth() + x) * 4
 	return data[index+2], data[index+1], data[index], data[index+3]
+}
+
+func (s *surface) Center() {
+	s.Translate(s.Width/2, s.Height/2)
 }
 
 // GetBounds returns a rectangle defined by the size of the surface.
