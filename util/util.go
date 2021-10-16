@@ -9,12 +9,39 @@ import (
 	"runtime"
 )
 
-// ConvertToGIF converts a folder of pngs into an animated gif. Requires imagemagick convert.
+func MakeGIF(tool, folder, outFileName string, fps float64) {
+	if tool == "convert" {
+		ConvertToGIF(folder, outFileName, fps)
+	} else if tool == "ffmpeg" {
+		FfmpegToGIF(folder, outFileName, fps)
+	}
+
+}
+
+// ConvertToGIF converts a folder of pngs into an animated gif using imagemagick convert.
 func ConvertToGIF(folder, outFileName string, fps float64) {
 	delay := fmt.Sprintf("%f", 1000.0/fps/10.0)
 	path := folder + "/*.png"
 	cmd := exec.Command("convert", "-delay", delay, "-layers", "Optimize", path, outFileName)
 	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+// FfmpegToGIF converts a folder of pngs into an animated gif using ffmpeg.
+func FfmpegToGIF(folder, outFileName string, fps float64) {
+	path := folder + "/frame_%04d.png"
+	fpsArg := fmt.Sprintf("%d", int(fps))
+
+	paletteCmd := exec.Command("ffmpeg", "-y", "-i", path, "-vf", "palettegen", "palette.png")
+	err := paletteCmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	outCmd := exec.Command("ffmpeg", "-y", "-framerate", fpsArg, "-i", path, "-i", "palette.png", "-filter_complex", "paletteuse", outFileName)
+	err = outCmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
