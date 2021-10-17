@@ -22,8 +22,8 @@ func NewPoint(x float64, y float64) *Point {
 }
 
 // LerpPoint linearly interpolates between two points.
-func LerpPoint(t float64, p0 *Point, p1 *Point) Point {
-	return Point{
+func LerpPoint(t float64, p0 *Point, p1 *Point) *Point {
+	return &Point{
 		blmath.Lerp(t, p0.X, p1.X),
 		blmath.Lerp(t, p0.Y, p1.Y),
 	}
@@ -57,8 +57,8 @@ func RandomPointInTriangle(A, B, C *Point) *Point {
 }
 
 // FromPolar creates a new point from and angle and radius.
-func FromPolar(angle float64, radius float64) Point {
-	return Point{math.Cos(angle) * radius, math.Sin(angle) * radius}
+func FromPolar(angle float64, radius float64) *Point {
+	return &Point{math.Cos(angle) * radius, math.Sin(angle) * radius}
 }
 
 // Distance between this point and another point

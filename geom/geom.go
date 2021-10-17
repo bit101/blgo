@@ -55,32 +55,32 @@ func XYToPolar(x, y float64) (float64, float64) {
 }
 
 // BezierPoint calculates a point along a Bezier curve.
-func BezierPoint(p0 Point, p1 Point, p2 Point, p3 Point, t float64) Point {
+func BezierPoint(p0 *Point, p1 *Point, p2 *Point, p3 *Point, t float64) *Point {
 	oneMinusT := 1.0 - t
 	m0 := oneMinusT * oneMinusT * oneMinusT
 	m1 := 3.0 * oneMinusT * oneMinusT * t
 	m2 := 3.0 * oneMinusT * t * t
 	m3 := t * t * t
-	return Point{
+	return &Point{
 		m0*p0.X + m1*p1.X + m2*p2.X + m3*p3.X,
 		m0*p0.Y + m1*p1.Y + m2*p2.Y + m3*p3.Y,
 	}
 }
 
 // QuadraticPoint calculated a point along a quadratic Bezier curve.
-func QuadraticPoint(p0 Point, p1 Point, p2 Point, t float64) Point {
+func QuadraticPoint(p0 *Point, p1 *Point, p2 *Point, t float64) *Point {
 	oneMinusT := 1.0 - t
 	m0 := oneMinusT * oneMinusT
 	m1 := 2.0 * oneMinusT * t
 	m2 := t * t
-	return Point{
+	return &Point{
 		m0*p0.X + m1*p1.X + m2*p2.X,
 		m0*p0.Y + m1*p1.Y + m2*p2.Y,
 	}
 }
 
 // SegmentIntersect returns whether or not two line segments cross.
-func SegmentIntersect(p0 Point, p1 Point, p2 Point, p3 Point) (Point, error) {
+func SegmentIntersect(p0 *Point, p1 *Point, p2 *Point, p3 *Point) (*Point, error) {
 	a1 := p1.Y - p0.Y
 	b1 := p0.X - p1.X
 	c1 := a1*p0.X + b1*p0.Y
@@ -90,7 +90,7 @@ func SegmentIntersect(p0 Point, p1 Point, p2 Point, p3 Point) (Point, error) {
 	denominator := a1*b2 - a2*b1
 
 	if denominator == 0.0 {
-		return Point{}, errors.New("nope")
+		return &Point{}, errors.New("nope")
 	}
 	intersectX := (b2*c1 - b1*c2) / denominator
 	intersectY := (a1*c2 - a2*c1) / denominator
@@ -101,16 +101,16 @@ func SegmentIntersect(p0 Point, p1 Point, p2 Point, p3 Point) (Point, error) {
 
 	if ((rx0 >= 0.0 && rx0 <= 1.0) || (ry0 >= 0.0 && ry0 <= 1.0)) &&
 		((rx1 >= 0.0 && rx1 <= 1.0) || (ry1 >= 0.0 && ry1 <= 1.0)) {
-		return Point{
+		return &Point{
 			intersectX,
 			intersectY,
 		}, nil
 	}
-	return Point{}, errors.New("nope")
+	return &Point{}, errors.New("nope")
 }
 
 // TangentPointToCircle calculates the point at which a line extending from a point will contact a circle.
-func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) Point {
+func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) *Point {
 	d := point.Distance(circle.Center)
 	dir := -1.0
 	if anticlockwise {
@@ -120,7 +120,7 @@ func TangentPointToCircle(point *Point, circle *Circle, anticlockwise bool) Poin
 	baseAngle := math.Atan2(circle.Center.Y-point.Y, circle.Center.X-point.X)
 	totalAngle := baseAngle + angle
 
-	return Point{
+	return &Point{
 		circle.Center.X + math.Cos(totalAngle)*circle.Radius,
 		circle.Center.Y + math.Sin(totalAngle)*circle.Radius,
 	}
