@@ -35,8 +35,7 @@ func FloatRange(min float64, max float64) float64 {
 
 // IntRange returns a random int from min to max.
 func IntRange(min int, max int) int {
-	randRange := float64(max - min)
-	return min + int(math.Round(rand.Float64()*randRange))
+	return int(FloatRange(float64(min), float64(max)))
 }
 
 // Boolean returns a random boolean.
