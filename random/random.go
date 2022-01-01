@@ -38,6 +38,24 @@ func IntRange(min int, max int) int {
 	return int(FloatRange(float64(min), float64(max)))
 }
 
+// RandomFloatArray returns an array of a given size filled with random floats from min to max.
+func RandomFloatArray(size int, min, max float64) []float64 {
+	arr := make([]float64, size)
+	for i := 0; i < size; i++ {
+		arr[i] = FloatRange(min, max)
+	}
+	return arr
+}
+
+// RandomIntArray returns an array of a given size filled with random int from min to max.
+func RandomIntArray(size int, min, max int) []int {
+	arr := make([]int, size)
+	for i := 0; i < size; i++ {
+		arr[i] = IntRange(min, max)
+	}
+	return arr
+}
+
 // Boolean returns a random boolean.
 func Boolean() bool {
 	return WeightedBool(0.5)
@@ -53,20 +71,25 @@ func Power(min, max, power float64) float64 {
 	return min + math.Pow(Float(), power)*(max-min)
 }
 
-// Gauss returns an averaged random within a range.
-func Gauss(min, max float64, gauss int) float64 {
-	total := 0.0
-	for i := 0; i < gauss; i++ {
-		total += FloatRange(min, max)
-	}
-	return total / float64(gauss)
+// GaussRange returns a random number within a normal distribution (mostly) within a min/max range.
+func GaussRange(min, max float64) float64 {
+	rng := (max - min) / 2.0
+	mean := min + rng
+	// a standard deviation of 1.0 will have 99.7% of its values between -3 and +3.
+	std := rng / 3.0
+	return rand.NormFloat64()*std + mean
+}
+
+// Norm returns a random number within a normal distrubution with the given mean and standard deviation.
+func Norm(mean, std float64) float64 {
+	return rand.NormFloat64()*std + mean
 }
 
 // String returns a random string.
 func String(length int) string {
 	s := ""
 	for i := 0; i < length; i++ {
-		c := rune(IntRange(33, 127))
+		c := rune(IntRange(33, 128))
 		s += string(c)
 	}
 	return s
@@ -76,7 +99,7 @@ func String(length int) string {
 func StringLower(length int) string {
 	s := ""
 	for i := 0; i < length; i++ {
-		c := rune(IntRange(97, 122))
+		c := rune(IntRange(97, 123))
 		s += string(c)
 	}
 	return s
@@ -86,7 +109,7 @@ func StringLower(length int) string {
 func StringUpper(length int) string {
 	s := ""
 	for i := 0; i < length; i++ {
-		c := rune(IntRange(65, 90))
+		c := rune(IntRange(65, 91))
 		s += string(c)
 	}
 	return s
@@ -96,7 +119,7 @@ func StringUpper(length int) string {
 func StringAlpha(length int) string {
 	s := ""
 	for i := 0; i < length; i++ {
-		c := rune(IntRange(65, 117))
+		c := rune(IntRange(65, 118))
 		if c > 90 {
 			c += 6
 		}
