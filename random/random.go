@@ -38,8 +38,8 @@ func IntRange(min int, max int) int {
 	return int(FloatRange(float64(min), float64(max)))
 }
 
-// RandomFloatArray returns an array of a given size filled with random floats from min to max.
-func RandomFloatArray(size int, min, max float64) []float64 {
+// FloatArray returns an array of a given size filled with random floats from min to max.
+func FloatArray(size int, min, max float64) []float64 {
 	arr := make([]float64, size)
 	for i := 0; i < size; i++ {
 		arr[i] = FloatRange(min, max)
@@ -47,8 +47,8 @@ func RandomFloatArray(size int, min, max float64) []float64 {
 	return arr
 }
 
-// RandomIntArray returns an array of a given size filled with random int from min to max.
-func RandomIntArray(size int, min, max int) []int {
+// IntArray returns an array of a given size filled with random int from min to max.
+func IntArray(size int, min, max int) []int {
 	arr := make([]int, size)
 	for i := 0; i < size; i++ {
 		arr[i] = IntRange(min, max)
