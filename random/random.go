@@ -76,7 +76,11 @@ func GaussRange(min, max float64) float64 {
 	rng := (max - min) / 2.0
 	mean := min + rng
 	// a standard deviation of 1.0 will have 99.7% of its values between -3 and +3.
-	std := rng / 3.0
+	// but for 100,000 samples, that's still around 300 points beyond that range.
+	// 99.994% will be between -4 and 4.
+	// for 100,000 samples, that's around 6 outside the range. better.
+	// so we get the standard deviation by dividing the range by 4.0
+	std := rng / 4.0
 	return rand.NormFloat64()*std + mean
 }
 
