@@ -349,7 +349,7 @@ func (s *Surface) Heart(x, y, w, h, r float64) {
 	for i := 0; i < int(res); i++ {
 		a := blmath.TwoPi * float64(i) / res
 		x := w * math.Pow(math.Sin(a), 3.0)
-		y := h*(0.8125*math.Cos(a)) - 0.3125*math.Cos(2.0*a) - 0.125*math.Cos(3.0*a) - 0.0625*math.Cos(4.0*a)
+		y := h*(0.8125*math.Cos(a) - 0.3125*math.Cos(2.0*a) - 0.125*math.Cos(3.0*a) - 0.0625*math.Cos(4.0*a))
 		path = append(path, geom.NewPoint(x, -y))
 	}
 	s.Path(path)
