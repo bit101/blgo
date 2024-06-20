@@ -1,3 +1,5 @@
+deprecated. using https://github.com/bit101/bitlib
+
 `blgo` is an adaption of my `bitlib` library for use with `go-cairo`.
 
 install cairo
